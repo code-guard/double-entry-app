@@ -1,10 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { DoubleEntryComponent } from './double-entry/double-entry.component';
 
-const routes: Routes = [];
+const routes: Routes = [
+    {
+        path: '',
+        component: DoubleEntryComponent,
+    }
+];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}
