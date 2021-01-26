@@ -12,8 +12,8 @@ export class DoubleEntryComponent {
 
     constructor() {
         this.dataSource = new MatTableDataSource<DoubleEntryRow>([{
-            date: null,
             code: null,
+            date: null,
             name: null,
             description: null,
             give: null,

@@ -1,6 +1,6 @@
 export interface DoubleEntryRow {
-    date: Date | null;
     code: string | null;
+    date: Date | null;
     name: string | null;
     description: string | null;
     give: number | null;
