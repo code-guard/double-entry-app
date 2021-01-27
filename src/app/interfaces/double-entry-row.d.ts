@@ -1,4 +1,5 @@
 export interface DoubleEntryRow {
+    id: string;
     code: string | null;
     date: Date | null;
     name: string | null;

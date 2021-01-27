@@ -9,6 +9,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { FormsModule } from '@angular/forms';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
     declarations: [
@@ -23,6 +26,9 @@ import { MatIconModule } from '@angular/material/icon';
         MatTabsModule,
         MatTableModule,
         MatIconModule,
+        MatButtonModule,
+        FormsModule,
+        MatSnackBarModule,
     ],
     providers: [],
     bootstrap: [AppComponent]
