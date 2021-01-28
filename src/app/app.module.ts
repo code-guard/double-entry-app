@@ -11,7 +11,12 @@ import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { FormsModule } from '@angular/forms';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule } from '@angular/material/snack-bar';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
     declarations: [
@@ -29,8 +34,25 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
         MatButtonModule,
         FormsModule,
         MatSnackBarModule,
+        NgSelectModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
     ],
-    providers: [],
+    providers: [
+        {
+            provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
+            useValue: {
+                duration: 1000,
+                verticalPosition: 'top',
+            },
+        },
+        {
+            provide: MAT_DATE_LOCALE,
+            useValue: 'it-IT',
+        },
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule {

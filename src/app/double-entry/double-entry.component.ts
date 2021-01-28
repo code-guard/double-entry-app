@@ -11,6 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class DoubleEntryComponent {
     dataSource: MatTableDataSource<DoubleEntryRow>;
+    // @ts-ignore
     rowData: DoubleEntryRow;
     dataset: DoubleEntryRow[] = [
         {
@@ -21,6 +22,7 @@ export class DoubleEntryComponent {
             description: '4',
             give: 6,
             take: 6,
+            isNew: false,
         },
         {
             id: uuidv4(),
@@ -30,6 +32,7 @@ export class DoubleEntryComponent {
             description: '4',
             give: 6,
             take: 6,
+            isNew: false,
         },
         {
             id: uuidv4(),
@@ -39,6 +42,7 @@ export class DoubleEntryComponent {
             description: '4',
             give: 6,
             take: 6,
+            isNew: false,
         },
         {
             id: uuidv4(),
@@ -48,6 +52,7 @@ export class DoubleEntryComponent {
             description: '4',
             give: 6,
             take: 6,
+            isNew: false,
         },
         {
             id: uuidv4(),
@@ -57,6 +62,7 @@ export class DoubleEntryComponent {
             description: '4',
             give: 6,
             take: 6,
+            isNew: false,
         },
         {
             id: uuidv4(),
@@ -66,6 +72,7 @@ export class DoubleEntryComponent {
             description: '4',
             give: 6,
             take: 6,
+            isNew: false,
         },
         {
             id: uuidv4(),
@@ -75,29 +82,34 @@ export class DoubleEntryComponent {
             description: '4',
             give: 5,
             take: 6,
+            isNew: false,
         },
+    ];
+
+    names = [
+        'pippo',
+        'pluto',
+        'paperino',
     ];
 
     constructor(
         private matSnackBar: MatSnackBar,
     ) {
-        this.rowData = {
-            id: uuidv4(),
-            code: null,
-            date: null,
-            name: null,
-            description: null,
-            give: null,
-            take: null,
-        };
-
-        this.dataset.push(this.rowData);
-
         this.dataSource = new MatTableDataSource<DoubleEntryRow>(this.dataset);
+        this.confirmRow();
     }
 
     editRow(row: DoubleEntryRow): void {
+        if (this.rowData.isNew) {
+            this.dataset.splice(this.dataset.length - 1, 1);
+        }
+
         this.rowData = this.dataset[this.dataset.indexOf(row)];
+        this.dataSource.filter = '';
+    }
+
+    discardEditRow(): void {
+        /** @TODO Implement me after local storage */
     }
 
     deleteRow(row: DoubleEntryRow): void {
@@ -105,6 +117,8 @@ export class DoubleEntryComponent {
 
         // This needs to stay. Don't know why.
         this.dataSource.filter = '';
+
+        this.matSnackBar.open('La riga è stata cancellata con successo.');
     }
 
     confirm(row: DoubleEntryRow): void {
@@ -121,8 +135,6 @@ export class DoubleEntryComponent {
             }
         }
 
-        console.log(total);
-
         if (total === 0) {
             this.matSnackBar.open('Done');
             return;
@@ -132,6 +144,10 @@ export class DoubleEntryComponent {
     }
 
     confirmRow(): void {
+        if (this.rowData) {
+            this.rowData.isNew = false;
+        }
+
         this.rowData = {
             id: uuidv4(),
             code: null,
@@ -140,6 +156,7 @@ export class DoubleEntryComponent {
             description: null,
             give: null,
             take: null,
+            isNew: true,
         };
         this.dataset.push(this.rowData);
 
