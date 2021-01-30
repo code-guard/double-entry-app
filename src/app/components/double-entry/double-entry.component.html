@@ -1,0 +1,121 @@
+<mat-tab-group>
+    <mat-tab label="Mastrini">
+        <mat-grid-list cols="3" rowHeight="2:1">
+            <mat-grid-tile *ngFor="let account of (computeTAccount(dataset))">
+                <mat-card>
+                    {{ account.account }}
+                    <span *ngFor="let row of account.tAccountRows">
+                        {{row.give}}
+                        {{row.take}}
+                    </span>
+                </mat-card>
+            </mat-grid-tile>
+        </mat-grid-list>
+    </mat-tab>
+    <mat-tab label="Partita doppia">
+        <main>
+            <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+                <ng-container matColumnDef="code">
+                    <mat-header-cell *matHeaderCellDef>Codice</mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+                        <mat-form-field appearance="outline" *ngIf="row.id === rowData.id">
+                            <mat-label>Codice</mat-label>
+                            <input matInput type="number" [(ngModel)]="row.code">
+                        </mat-form-field>
+                        <span *ngIf="row.id !== rowData.id">{{ row.code }}</span>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="date">
+                    <mat-header-cell *matHeaderCellDef>Data</mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+                        <mat-form-field appearance="outline" *ngIf="row.id === rowData.id">
+                            <mat-label>Data</mat-label>
+                            <input matInput [matDatepicker]="picker" [(ngModel)]="rowData.date">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                        <span *ngIf="row.id !== rowData.id">{{ row.date | date:'dd/MM/YYYY' }}</span>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="name">
+                    <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+<!--                        <ng-select appearance="outline"-->
+<!--                                   *ngIf="row.id === rowData.id"-->
+<!--                                   [items]="names"-->
+<!--                                   [(ngModel)]="row.name">-->
+<!--                        </ng-select>-->
+                        <mat-form-field appearance="outline" *ngIf="row.id === rowData.id">
+                            <mat-label>Nome</mat-label>
+                            <input matInput type="text" [(ngModel)]="row.name">
+                        </mat-form-field>
+                        <span *ngIf="row.id !== rowData.id">{{ row.name }}</span>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="description">
+                    <mat-header-cell *matHeaderCellDef>Descrizione</mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+                        <mat-form-field appearance="outline" *ngIf="row.id === rowData.id">
+                            <mat-label>Descrizione</mat-label>
+                            <input matInput type="text" [(ngModel)]="row.description">
+                        </mat-form-field>
+                        <span *ngIf="row.id !== rowData.id">{{ row.description }}</span>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="give">
+                    <mat-header-cell *matHeaderCellDef class="numeric-values">Dare</mat-header-cell>
+                    <mat-cell *matCellDef="let row" class="numeric-values">
+                        <mat-form-field appearance="outline" *ngIf="row.id === rowData.id">
+                            <mat-label>Dare</mat-label>
+                            <input matInput type="number" [(ngModel)]="row.give">
+                        </mat-form-field>
+                        <span *ngIf="row.id !== rowData.id">{{ row.give | currency:'EUR':'symbol':'0.2-2':'it-IT' }}</span>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="take">
+                    <mat-header-cell *matHeaderCellDef class="numeric-values">Avere</mat-header-cell>
+                    <mat-cell *matCellDef="let row" class="numeric-values">
+                        <mat-form-field appearance="outline" *ngIf="row.id === rowData.id">
+                            <mat-label>Avere</mat-label>
+                            <input matInput type="number" [(ngModel)]="row.take">
+                        </mat-form-field>
+                        <span *ngIf="row.id !== rowData.id">{{ row.take | currency:'EUR':'symbol':'0.2-2':'it-IT' }}</span>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="actions">
+                    <mat-header-cell *matHeaderCellDef class="numeric-values">Azioni</mat-header-cell>
+                    <mat-cell *matCellDef="let row" class="numeric-values">
+                        <button mat-icon-button color="primary" *ngIf="row.id === rowData.id && !row.isNew" (click)="confirmRow()">
+                            <mat-icon aria-hidden="false">save</mat-icon>
+                        </button>
+                        <button mat-icon-button color="primary" *ngIf="row.id === rowData.id && !row.isNew" (click)="discardEditRow()">
+                            <mat-icon aria-hidden="false">close</mat-icon>
+                        </button>
+                        <button mat-icon-button color="primary" *ngIf="row.id === rowData.id && row.isNew" (click)="confirmRow()">
+                            <mat-icon aria-hidden="false">add</mat-icon>
+                        </button>
+                        <button mat-icon-button color="primary" *ngIf="row.id !== rowData.id" (click)="editRow(row)">
+                            <mat-icon aria-hidden="false">edit</mat-icon>
+                        </button>
+                        <button mat-icon-button color="primary" *ngIf="row.id !== rowData.id" (click)="deleteRow(row)">
+                            <mat-icon aria-hidden="false">delete</mat-icon>
+                        </button>
+                        <button mat-icon-button color="primary" *ngIf="row.id !== rowData.id" (click)="confirm(row)">
+                            <mat-icon aria-hidden="false">check</mat-icon>
+                        </button>
+                    </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="['code', 'date', 'name', 'description', 'give', 'take', 'actions']"></mat-header-row>
+                <mat-row
+                    *matRowDef="let row; columns: ['code', 'date', 'name', 'description', 'give', 'take', 'actions']"
+                    class="{{ row === lastBalancedRow ? 'balanced-row' : null }}"
+                ></mat-row>
+            </mat-table>
+
+            <button mat-raised-button color="primary" (click)="persistData(dataset)">Save data</button>
+            <button mat-raised-button color="primary" (click)="downloadData(dataset)">Download dump</button>
+            <a id="downloadAnchorElem"></a>
+        </main>
+    </mat-tab>
+</mat-tab-group>
