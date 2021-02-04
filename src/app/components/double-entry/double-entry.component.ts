@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, Output } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { DoubleEntryRow } from '../../interfaces/double-entry-row';
 import { v4 as uuidv4 } from 'uuid';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DataPersistenceService } from '../../services/data-persistence.service';
-import { TAccount } from '../../interfaces/t-account';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
     selector: 'app-double-entry',
@@ -15,7 +15,15 @@ export class DoubleEntryComponent {
     dataSource: MatTableDataSource<DoubleEntryRow>;
     // @ts-ignore
     rowData: DoubleEntryRow;
-    dataset: DoubleEntryRow[];
+    doubleEntryRows: DoubleEntryRow[];
+    doubleEntryForm = new FormGroup({
+        code: new FormControl('', Validators.required),
+        date: new FormControl('', Validators.required),
+        name: new FormControl('', Validators.required),
+        description: new FormControl('', Validators.required),
+        give: new FormControl(),
+        take: new FormControl(),
+    });
 
     names = [
         'pippo',
@@ -30,17 +38,17 @@ export class DoubleEntryComponent {
         private matSnackBar: MatSnackBar,
         private dataPersistenceService: DataPersistenceService,
     ) {
-        this.dataset = this.dataPersistenceService.get() || [];
-        this.dataSource = new MatTableDataSource<DoubleEntryRow>(this.dataset);
+        this.doubleEntryRows = this.dataPersistenceService.get() || [];
+        this.dataSource = new MatTableDataSource<DoubleEntryRow>(this.doubleEntryRows);
         this.confirmRow();
     }
 
     editRow(row: DoubleEntryRow): void {
         if (this.rowData.isNew) {
-            this.dataset.splice(this.dataset.length - 1, 1);
+            this.doubleEntryRows.splice(this.doubleEntryRows.length - 1, 1);
         }
 
-        this.rowData = this.dataset[this.dataset.indexOf(row)];
+        this.rowData = this.doubleEntryRows[this.doubleEntryRows.indexOf(row)];
         this.dataSource.filter = '';
     }
 
@@ -49,7 +57,7 @@ export class DoubleEntryComponent {
     }
 
     deleteRow(row: DoubleEntryRow): void {
-        this.dataset.splice(this.dataset.indexOf(row), 1);
+        this.doubleEntryRows.splice(this.doubleEntryRows.indexOf(row), 1);
 
         // This needs to stay. Don't know why.
         this.dataSource.filter = '';
@@ -62,7 +70,7 @@ export class DoubleEntryComponent {
 
         let total = 0;
 
-        for (const data of this.dataset) {
+        for (const data of this.doubleEntryRows) {
             // @ts-ignore
             total += data.give;
             // @ts-ignore
@@ -96,18 +104,18 @@ export class DoubleEntryComponent {
             take: null,
             isNew: true,
         };
-        this.dataset.push(this.rowData);
+        this.doubleEntryRows.push(this.rowData);
 
         // This needs to stay. Don't know why.
         this.dataSource.filter = '';
     }
 
-    persistData(dataset: DoubleEntryRow[]): void {
-        this.dataPersistenceService.set(dataset.filter(row => !row.isNew));
+    persistData(doubleEntryRows: DoubleEntryRow[]): void {
+        this.dataPersistenceService.set(doubleEntryRows.filter(row => !row.isNew));
     }
 
-    downloadData(dataset: DoubleEntryRow[]): void {
-        const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(dataset));
+    downloadData(doubleEntryRows: DoubleEntryRow[]): void {
+        const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(doubleEntryRows));
         const dlAnchorElem = document.getElementById('downloadAnchorElem');
         // @ts-ignore
         dlAnchorElem.setAttribute('href', dataStr);
@@ -115,38 +123,5 @@ export class DoubleEntryComponent {
         dlAnchorElem.setAttribute('download', 'partita-doppia-export.json');
         // @ts-ignore
         dlAnchorElem.click();
-    }
-
-    computeTAccount(dataset: DoubleEntryRow[]): TAccount[] {
-        const tAccounts = {};
-
-        dataset.forEach(row => {
-            if (row.isNew) {
-                return;
-            }
-
-            // @ts-ignore
-            if (!tAccounts[row.name]) {
-                // @ts-ignore
-                tAccounts[row.name] = {
-                    id: uuidv4(),
-                    account: row.name,
-                    tAccountRows: [],
-                };
-            }
-
-            // @ts-ignore
-            tAccounts[row.name].tAccountRows.push({
-                id: uuidv4(),
-                doubleEntryRowId: row.id,
-                date: row.date,
-                give: row.give,
-                take: row.take,
-            });
-        });
-
-        console.log(tAccounts);
-
-        return Object.values(tAccounts);
     }
 }

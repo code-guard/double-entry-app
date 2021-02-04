@@ -1,0 +1,11 @@
+<mat-grid-list cols="3" rowHeight="2:1">
+    <mat-grid-tile *ngFor="let account of tAccounts">
+        <mat-card>
+            {{ account.account }}
+            <span *ngFor="let row of account.tAccountRows">
+                        {{row.give}}
+                {{row.take}}
+                    </span>
+        </mat-card>
+    </mat-grid-tile>
+</mat-grid-list>
