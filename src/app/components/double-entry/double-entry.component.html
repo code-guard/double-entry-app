@@ -49,7 +49,7 @@
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="give">
-                <mat-header-cell *matHeaderCellDef class="numeric-values">Dare</mat-header-cell>
+                <mat-header-cell *matHeaderCellDef>Dare</mat-header-cell>
                 <mat-cell *matCellDef="let row" class="numeric-values">
                     <mat-form-field appearance="outline" *ngIf="row.id === rowData.id">
                         <mat-label>Dare</mat-label>
@@ -59,7 +59,7 @@
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="take">
-                <mat-header-cell *matHeaderCellDef class="numeric-values">Avere</mat-header-cell>
+                <mat-header-cell *matHeaderCellDef>Avere</mat-header-cell>
                 <mat-cell *matCellDef="let row" class="numeric-values">
                     <mat-form-field appearance="outline" *ngIf="row.id === rowData.id">
                         <mat-label>Avere</mat-label>
@@ -71,22 +71,22 @@
             <ng-container matColumnDef="actions">
                 <mat-header-cell *matHeaderCellDef class="numeric-values">Azioni</mat-header-cell>
                 <mat-cell *matCellDef="let row" class="numeric-values">
-                    <button type="submit" mat-icon-button color="primary" *ngIf="row.id === rowData.id && !row.isNew" (click)="confirmRow()">
+                    <button type="submit" mat-icon-button color="primary" *ngIf="row.id === rowData.id && !row.isNew" (click)="confirmRow(doubleEntryForm)">
                         <mat-icon aria-hidden="false">save</mat-icon>
                     </button>
-                    <button mat-icon-button color="primary" *ngIf="row.id === rowData.id && !row.isNew" (click)="discardEditRow()">
+                    <button type="button" mat-icon-button color="primary" *ngIf="row.id === rowData.id && !row.isNew" (click)="discardEditRow()">
                         <mat-icon aria-hidden="false">close</mat-icon>
                     </button>
-                    <button type="submit" mat-icon-button color="primary" *ngIf="row.id === rowData.id && row.isNew" (click)="confirmRow()">
+                    <button type="submit" mat-icon-button color="primary" *ngIf="row.id === rowData.id && row.isNew" (click)="confirmRow(doubleEntryForm)">
                         <mat-icon aria-hidden="false">add</mat-icon>
                     </button>
-                    <button mat-icon-button color="primary" *ngIf="row.id !== rowData.id" (click)="editRow(row)">
+                    <button type="button" mat-icon-button color="primary" *ngIf="row.id !== rowData.id" (click)="editRow(row)">
                         <mat-icon aria-hidden="false">edit</mat-icon>
                     </button>
-                    <button mat-icon-button color="primary" *ngIf="row.id !== rowData.id" (click)="deleteRow(row)">
+                    <button type="button" mat-icon-button color="primary" *ngIf="row.id !== rowData.id" (click)="deleteRow(row)">
                         <mat-icon aria-hidden="false">delete</mat-icon>
                     </button>
-                    <button mat-icon-button color="primary" *ngIf="row.id !== rowData.id" (click)="confirm(row)">
+                    <button type="button" mat-icon-button color="primary" *ngIf="row.id !== rowData.id" (click)="confirm(row)">
                         <mat-icon aria-hidden="false">check</mat-icon>
                     </button>
                 </mat-cell>

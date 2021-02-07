@@ -1,0 +1,14 @@
+.give-row,
+.take-row {
+    display: flex;
+    text-align: right;
+
+    span {
+        width: 75px;
+        padding: 5px 10px;
+
+        &:first-of-type {
+            border-right: 1px solid #000;
+        }
+    }
+}

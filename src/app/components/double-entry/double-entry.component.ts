@@ -1,10 +1,17 @@
-import { Component, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { DoubleEntryRow } from '../../interfaces/double-entry-row';
 import { v4 as uuidv4 } from 'uuid';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DataPersistenceService } from '../../services/data-persistence.service';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+
+export const atLeastGiveOrTakeValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+    const give = control.get('give');
+    const take = control.get('take');
+
+    return give?.value || take?.value ? null : { atLeastGiveOrTake: true };
+};
 
 @Component({
     selector: 'app-double-entry',
@@ -17,12 +24,14 @@ export class DoubleEntryComponent {
     rowData: DoubleEntryRow;
     doubleEntryRows: DoubleEntryRow[];
     doubleEntryForm = new FormGroup({
-        code: new FormControl('', Validators.required),
-        date: new FormControl('', Validators.required),
+        code: new FormControl('', [Validators.required, Validators.pattern('^[0-9]*$')]),
+        date: new FormControl(new Date(), Validators.required),
         name: new FormControl('', Validators.required),
         description: new FormControl('', Validators.required),
-        give: new FormControl(),
-        take: new FormControl(),
+        give: new FormControl(null, Validators.min(1)),
+        take: new FormControl(null, Validators.min(1)),
+    }, {
+        validators: atLeastGiveOrTakeValidator,
     });
 
     names = [
@@ -89,7 +98,28 @@ export class DoubleEntryComponent {
         this.matSnackBar.open('Doe');
     }
 
-    confirmRow(): void {
+    confirmRow(doubleEntryForm?: FormGroup): void {
+        if (doubleEntryForm) {
+            if (!doubleEntryForm.valid) {
+                return;
+            }
+
+            Object.keys(doubleEntryForm.value).forEach(key => {
+                // @ts-ignore
+                this.rowData[key] = doubleEntryForm.value[key];
+            });
+
+            doubleEntryForm.get('code')?.setValue('');
+            doubleEntryForm.get('date')?.setValue(new Date());
+            doubleEntryForm.get('name')?.setValue('');
+            doubleEntryForm.get('description')?.setValue('');
+            doubleEntryForm.get('give')?.setValue(null);
+            doubleEntryForm.get('take')?.setValue(null);
+
+            doubleEntryForm?.markAsPristine();
+            doubleEntryForm?.markAsUntouched();
+        }
+
         if (this.rowData) {
             this.rowData.isNew = false;
         }

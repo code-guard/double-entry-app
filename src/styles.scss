@@ -22,3 +22,13 @@ main {
 .mr-1 {
     margin-right: 1rem !important;
 }
+
+.mat-form-field-appearance-outline {
+    width: 90%;
+    padding-right: 10%;
+
+    .mat-form-field-wrapper {
+        padding: 0.5rem 0 !important;
+        margin: 0;
+    }
+}
