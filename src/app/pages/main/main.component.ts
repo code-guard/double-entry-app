@@ -8,4 +8,5 @@ import { DoubleEntryRow } from '../../interfaces/double-entry-row';
 })
 export class MainComponent {
     doubleEntryRows: DoubleEntryRow[] = [];
+    showTAccount = true;
 }

@@ -1,6 +1,6 @@
-<mat-tab-group>
+<mat-tab-group (selectedTabChange)="showTAccount = !showTAccount">
     <mat-tab label="Mastrini">
-        <app-t-account></app-t-account>
+        <app-t-account *ngIf="showTAccount"></app-t-account>
     </mat-tab>
     <mat-tab label="Partita doppia">
         <app-double-entry></app-double-entry>
