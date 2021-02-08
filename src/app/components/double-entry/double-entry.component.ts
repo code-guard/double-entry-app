@@ -61,8 +61,54 @@ export class DoubleEntryComponent {
         this.dataSource.filter = '';
     }
 
-    discardEditRow(): void {
-        /** @TODO Implement me after local storage */
+    editRowForm(row: DoubleEntryRow, doubleEntryForm?: FormGroup): void{
+        if (this.rowData.isNew) {
+            this.doubleEntryRows.splice(this.doubleEntryRows.length - 1, 1);
+        }
+
+        this.rowData = this.doubleEntryRows[this.doubleEntryRows.indexOf(row)];
+        if (doubleEntryForm) {
+            doubleEntryForm.get('code')?.setValue(row.code);
+            doubleEntryForm.get('date')?.setValue(row.date);
+            doubleEntryForm.get('name')?.setValue(row.name);
+            doubleEntryForm.get('description')?.setValue(row.description);
+            doubleEntryForm.get('give')?.setValue(row.give);
+            doubleEntryForm.get('take')?.setValue(row.take);
+
+            doubleEntryForm?.markAsPristine();
+            doubleEntryForm?.markAsUntouched();
+        }
+        this.dataSource.filter = '';
+
+    }
+
+    discardEditRow(row: DoubleEntryRow, doubleEntryForm?: FormGroup): void {
+        if (doubleEntryForm) {
+            doubleEntryForm.get('code')?.setValue('');
+            doubleEntryForm.get('date')?.setValue(new Date());
+            doubleEntryForm.get('name')?.setValue('');
+            doubleEntryForm.get('description')?.setValue('');
+            doubleEntryForm.get('give')?.setValue(null);
+            doubleEntryForm.get('take')?.setValue(null);
+
+            doubleEntryForm?.markAsPristine();
+            doubleEntryForm?.markAsUntouched();
+        }
+        if (this.rowData) {
+            this.rowData.isNew = false;
+        }
+        this.rowData = {
+            id: uuidv4(),
+            code: null,
+            date: new Date(),
+            name: null,
+            description: null,
+            give: null,
+            take: null,
+            isNew: true,
+        };
+        this.doubleEntryRows.push(this.rowData);
+        this.dataSource.filter = '';
     }
 
     deleteRow(row: DoubleEntryRow): void {
@@ -75,7 +121,6 @@ export class DoubleEntryComponent {
     }
 
     confirm(row: DoubleEntryRow): void {
-        this.lastBalancedRow = row;
 
         let total = 0;
 
@@ -92,6 +137,7 @@ export class DoubleEntryComponent {
 
         if (total === 0) {
             this.matSnackBar.open('Done');
+            this.lastBalancedRow = row;
             return;
         }
 

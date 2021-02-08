@@ -74,13 +74,13 @@
                     <button type="submit" mat-icon-button color="primary" *ngIf="row.id === rowData.id && !row.isNew" (click)="confirmRow(doubleEntryForm)">
                         <mat-icon aria-hidden="false">save</mat-icon>
                     </button>
-                    <button type="button" mat-icon-button color="primary" *ngIf="row.id === rowData.id && !row.isNew" (click)="discardEditRow()">
+                    <button type="button" mat-icon-button color="primary" *ngIf="row.id === rowData.id && !row.isNew" (click)="discardEditRow(row, doubleEntryForm)">
                         <mat-icon aria-hidden="false">close</mat-icon>
                     </button>
                     <button type="submit" mat-icon-button color="primary" *ngIf="row.id === rowData.id && row.isNew" (click)="confirmRow(doubleEntryForm)">
                         <mat-icon aria-hidden="false">add</mat-icon>
                     </button>
-                    <button type="button" mat-icon-button color="primary" *ngIf="row.id !== rowData.id" (click)="editRow(row)">
+                        <button type="button" mat-icon-button color="primary" *ngIf="row.id !== rowData.id" (click)="editRowForm(row, doubleEntryForm)">
                         <mat-icon aria-hidden="false">edit</mat-icon>
                     </button>
                     <button type="button" mat-icon-button color="primary" *ngIf="row.id !== rowData.id" (click)="deleteRow(row)">
