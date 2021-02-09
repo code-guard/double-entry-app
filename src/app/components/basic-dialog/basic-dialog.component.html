@@ -1,0 +1,11 @@
+<h1 mat-dialog-title>
+    <ng-container *ngIf="data.title">{{ data.title }}</ng-container>
+    <ng-container *ngIf="!data.title">Attenzione</ng-container>
+</h1>
+<p mat-dialog-content [innerHTML]="data.message"></p>
+<mat-dialog-actions align="center">
+    <button mat-raised-button color="{{ i === 0 ? 'secondary' : 'primary' }}" *ngFor="let action of data.actions; let i = index"
+            [mat-dialog-close]="action.actionName"
+            cdkFocusInitial>{{ action.text }}
+    </button>
+</mat-dialog-actions>

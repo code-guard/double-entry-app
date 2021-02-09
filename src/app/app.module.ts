@@ -23,6 +23,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MainComponent } from './pages/main/main.component';
 import { TAccountComponent } from './components/t-account/t-account.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { BasicDialogComponent } from './components/basic-dialog/basic-dialog.component';
+import { BooleanDialogComponent } from './components/boolean-dialog/boolean-dialog.component';
 
 registerLocaleData(localeIt);
 
@@ -31,7 +34,9 @@ registerLocaleData(localeIt);
         AppComponent,
         DoubleEntryComponent,
         MainComponent,
-        TAccountComponent
+        TAccountComponent,
+        BasicDialogComponent,
+        BooleanDialogComponent,
     ],
     imports: [
         BrowserModule,
@@ -52,6 +57,7 @@ registerLocaleData(localeIt);
         MatCardModule,
         MatGridListModule,
         ReactiveFormsModule,
+        MatDialogModule,
     ],
     providers: [
         {

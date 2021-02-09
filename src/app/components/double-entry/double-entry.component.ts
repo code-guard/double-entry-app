@@ -5,6 +5,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DataPersistenceService } from '../../services/data-persistence.service';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { BooleanDialogComponent } from '../boolean-dialog/boolean-dialog.component';
 
 export const atLeastGiveOrTakeValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
     const give = control.get('give');
@@ -46,6 +48,7 @@ export class DoubleEntryComponent {
     constructor(
         private matSnackBar: MatSnackBar,
         private dataPersistenceService: DataPersistenceService,
+        private matDialog: MatDialog,
     ) {
         this.doubleEntryRows = this.dataPersistenceService.get() || [];
         this.dataSource = new MatTableDataSource<DoubleEntryRow>(this.doubleEntryRows);
@@ -121,7 +124,6 @@ export class DoubleEntryComponent {
     }
 
     confirm(row: DoubleEntryRow): void {
-
         let total = 0;
 
         for (const data of this.doubleEntryRows) {
@@ -199,5 +201,31 @@ export class DoubleEntryComponent {
         dlAnchorElem.setAttribute('download', 'partita-doppia-export.json');
         // @ts-ignore
         dlAnchorElem.click();
+    }
+
+    reset(): void {
+        this.matDialog.open(BooleanDialogComponent, {
+            data: {
+                title: 'Sei sicuro di voler eliminare tutto il progetto?',
+                message: 'Non sarà possibile recuperarlo successivamente.',
+                // actions: [
+                //     {
+                //         text: 'Sì',
+                //         actionName: string | boolean
+                //     }
+                // ],
+            }
+        }).afterClosed().subscribe(result => {
+            if (!result) {
+                return;
+            }
+
+            this.doubleEntryRows.splice(0, --this.doubleEntryRows.length);
+            this.dataPersistenceService.clear();
+            this.confirmRow();
+
+            // This needs to stay. Don't know why.
+            this.dataSource.filter = '';
+        });
     }
 }
