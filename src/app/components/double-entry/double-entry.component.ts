@@ -24,10 +24,10 @@ export class DoubleEntryComponent {
     rowData: DoubleEntryRow;
     doubleEntryRows: DoubleEntryRow[];
     doubleEntryForm = new FormGroup({
-        code: new FormControl('', [Validators.required, Validators.pattern('^[0-9]*$')]),
+        code: new FormControl('', Validators.pattern('^[0-9]*$')),
         date: new FormControl(new Date(), Validators.required),
         name: new FormControl('', Validators.required),
-        description: new FormControl('', Validators.required),
+        description: new FormControl(''),
         give: new FormControl(null, Validators.min(1)),
         take: new FormControl(null, Validators.min(1)),
     }, {
