@@ -7,6 +7,7 @@ import { DataPersistenceService } from '../../services/data-persistence.service'
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { BooleanDialogComponent } from '../boolean-dialog/boolean-dialog.component';
+import { ImportDataDialogComponent } from '../import-data-dialog/import-data-dialog.component';
 
 export const atLeastGiveOrTakeValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
     const give = control.get('give');
@@ -21,9 +22,11 @@ export const atLeastGiveOrTakeValidator: ValidatorFn = (control: AbstractControl
     styleUrls: ['./double-entry.component.scss']
 })
 export class DoubleEntryComponent {
+    // @ts-ignore
     dataSource: MatTableDataSource<DoubleEntryRow>;
     // @ts-ignore
     rowData: DoubleEntryRow;
+    // @ts-ignore
     doubleEntryRows: DoubleEntryRow[];
     doubleEntryForm = new FormGroup({
         code: new FormControl('', Validators.pattern('^[0-9]*$')),
@@ -50,6 +53,10 @@ export class DoubleEntryComponent {
         private dataPersistenceService: DataPersistenceService,
         private matDialog: MatDialog,
     ) {
+        this.initData();
+    }
+
+    private initData(): void {
         this.doubleEntryRows = this.dataPersistenceService.get() || [];
         this.dataSource = new MatTableDataSource<DoubleEntryRow>(this.doubleEntryRows);
         this.confirmRow();
@@ -201,6 +208,12 @@ export class DoubleEntryComponent {
         dlAnchorElem.setAttribute('download', 'partita-doppia-export.json');
         // @ts-ignore
         dlAnchorElem.click();
+    }
+
+    importData(): void {
+        this.matDialog.open(ImportDataDialogComponent).afterClosed().subscribe(() => {
+            this.initData();
+        });
     }
 
     reset(): void {

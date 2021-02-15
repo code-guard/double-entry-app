@@ -26,6 +26,7 @@ import { TAccountComponent } from './components/t-account/t-account.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { BasicDialogComponent } from './components/basic-dialog/basic-dialog.component';
 import { BooleanDialogComponent } from './components/boolean-dialog/boolean-dialog.component';
+import { ImportDataDialogComponent } from './components/import-data-dialog/import-data-dialog.component';
 
 registerLocaleData(localeIt);
 
@@ -37,6 +38,7 @@ registerLocaleData(localeIt);
         TAccountComponent,
         BasicDialogComponent,
         BooleanDialogComponent,
+        ImportDataDialogComponent,
     ],
     imports: [
         BrowserModule,

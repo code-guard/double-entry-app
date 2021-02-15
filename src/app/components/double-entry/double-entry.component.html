@@ -103,11 +103,15 @@
 
     <button class="mr-1" mat-raised-button color="primary" (click)="persistData(doubleEntryRows)">
         <mat-icon aria-hidden="false" style="top: -1px; position: relative; left: -1px;">save</mat-icon>
-        Save data
+        Salva
     </button>
-    <button mat-raised-button color="primary" (click)="downloadData(doubleEntryRows)">
+    <button class="mr-1" mat-raised-button color="primary" (click)="downloadData(doubleEntryRows)">
         <mat-icon aria-hidden="false" style="top: -1px; position: relative; left: -1px;">file_download</mat-icon>
-        Download dump
+        Scarica progetto
+    </button>
+    <button mat-raised-button color="primary" (click)="importData()">
+        <mat-icon aria-hidden="false" style="top: -1px; position: relative; left: -1px;">publish</mat-icon>
+        Importa progetto
     </button>
     <button mat-raised-button color="warn" (click)="reset()" class="float-right">
         <mat-icon aria-hidden="false" style="top: -1px; position: relative; left: -1px;">delete_forever</mat-icon>
