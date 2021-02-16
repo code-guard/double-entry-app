@@ -95,7 +95,7 @@
             <mat-header-row *matHeaderRowDef="['code', 'date', 'name', 'description', 'give', 'take', 'actions']"></mat-header-row>
             <mat-row
                 *matRowDef="let row; columns: ['code', 'date', 'name', 'description', 'give', 'take', 'actions']"
-                class="{{ row === lastBalancedRow ? 'balanced-row' : null }}"
+                class="{{ row === lastBalancedRow || row.hasBeenBalanced ? 'balanced-row' : null }}"
             ></mat-row>
         </mat-table>
     </form>

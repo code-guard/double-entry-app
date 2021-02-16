@@ -58,6 +58,7 @@ export class DoubleEntryComponent {
 
     private initData(): void {
         this.doubleEntryRows = this.dataPersistenceService.get() || [];
+        this.doubleEntryRows.splice(-1, 1);
         this.dataSource = new MatTableDataSource<DoubleEntryRow>(this.doubleEntryRows);
         this.confirmRow();
     }
@@ -116,6 +117,7 @@ export class DoubleEntryComponent {
             give: null,
             take: null,
             isNew: true,
+            hasBeenBalanced: false,
         };
         this.doubleEntryRows.push(this.rowData);
         this.dataSource.filter = '';
@@ -145,12 +147,16 @@ export class DoubleEntryComponent {
         }
 
         if (total === 0) {
-            this.matSnackBar.open('Done');
+            this.matSnackBar.open('Balanced!');
             this.lastBalancedRow = row;
+            // row.hasBeenBalances = true;
+            this.doubleEntryRows[this.doubleEntryRows.indexOf(row)].hasBeenBalanced = true;
+            this.dataSource.filter = '';
             return;
         }
 
-        this.matSnackBar.open('Doe');
+        this.doubleEntryRows[this.doubleEntryRows.indexOf(row)].hasBeenBalanced = false;
+        this.matSnackBar.open('Not balanced');
     }
 
     confirmRow(doubleEntryForm?: FormGroup): void {
@@ -177,6 +183,9 @@ export class DoubleEntryComponent {
 
         if (this.rowData) {
             this.rowData.isNew = false;
+            if (this.rowData.hasBeenBalanced){
+                this.confirm(this.rowData);
+            }
         }
 
         this.rowData = {
@@ -188,6 +197,7 @@ export class DoubleEntryComponent {
             give: null,
             take: null,
             isNew: true,
+            hasBeenBalanced: false,
         };
         this.doubleEntryRows.push(this.rowData);
 
