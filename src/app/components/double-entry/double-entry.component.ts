@@ -39,15 +39,6 @@ export class DoubleEntryComponent {
         validators: atLeastGiveOrTakeValidator,
     });
 
-    names = [
-        'pippo',
-        'pluto',
-        'paperino',
-    ];
-
-    // @ts-ignore
-    lastBalancedRow: DoubleEntryRow | null;
-
     constructor(
         private matSnackBar: MatSnackBar,
         private dataPersistenceService: DataPersistenceService,
@@ -148,7 +139,6 @@ export class DoubleEntryComponent {
 
         if (total === 0) {
             this.matSnackBar.open('Balanced!');
-            this.lastBalancedRow = row;
             // row.hasBeenBalances = true;
             this.doubleEntryRows[this.doubleEntryRows.indexOf(row)].hasBeenBalanced = true;
             this.dataSource.filter = '';

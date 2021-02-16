@@ -27,6 +27,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { BasicDialogComponent } from './components/basic-dialog/basic-dialog.component';
 import { BooleanDialogComponent } from './components/boolean-dialog/boolean-dialog.component';
 import { ImportDataDialogComponent } from './components/import-data-dialog/import-data-dialog.component';
+import { PrintComponent } from './pages/print/print.component';
 
 registerLocaleData(localeIt);
 
@@ -39,6 +40,7 @@ registerLocaleData(localeIt);
         BasicDialogComponent,
         BooleanDialogComponent,
         ImportDataDialogComponent,
+        PrintComponent,
     ],
     imports: [
         BrowserModule,

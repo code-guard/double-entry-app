@@ -52,6 +52,5 @@ export class TAccountComponent implements OnInit {
         });
 
         this.tAccounts = Object.values(tAccounts);
-        console.log(this.tAccounts, this.doubleEntryRows);
     }
 }

@@ -38,3 +38,9 @@ main {
 .float-right {
     float: right;
 }
+
+@media print {
+    mat-toolbar {
+        display: none !important;
+    }
+}

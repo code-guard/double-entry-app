@@ -49,7 +49,7 @@
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="give">
-                <mat-header-cell *matHeaderCellDef>Dare</mat-header-cell>
+                <mat-header-cell *matHeaderCellDef class="numeric-values">Dare</mat-header-cell>
                 <mat-cell *matCellDef="let row" class="numeric-values">
                     <mat-form-field appearance="outline" *ngIf="row.id === rowData.id">
                         <mat-label>Dare</mat-label>
@@ -59,7 +59,7 @@
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="take">
-                <mat-header-cell *matHeaderCellDef>Avere</mat-header-cell>
+                <mat-header-cell *matHeaderCellDef class="numeric-values">Avere</mat-header-cell>
                 <mat-cell *matCellDef="let row" class="numeric-values">
                     <mat-form-field appearance="outline" *ngIf="row.id === rowData.id">
                         <mat-label>Avere</mat-label>
@@ -69,7 +69,7 @@
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="actions">
-                <mat-header-cell *matHeaderCellDef>Azioni</mat-header-cell>
+                <mat-header-cell *matHeaderCellDef class="numeric-values">Azioni</mat-header-cell>
                 <mat-cell *matCellDef="let row" class="numeric-values">
                     <button type="submit" mat-icon-button color="primary" *ngIf="row.id === rowData.id && !row.isNew" (click)="confirmRow(doubleEntryForm)">
                         <mat-icon aria-hidden="false">save</mat-icon>
@@ -95,7 +95,7 @@
             <mat-header-row *matHeaderRowDef="['code', 'date', 'name', 'description', 'give', 'take', 'actions']"></mat-header-row>
             <mat-row
                 *matRowDef="let row; columns: ['code', 'date', 'name', 'description', 'give', 'take', 'actions']"
-                class="{{ row === lastBalancedRow || row.hasBeenBalanced ? 'balanced-row' : null }}"
+                class="{{ row.hasBeenBalanced ? 'balanced-row' : null }}"
             ></mat-row>
         </mat-table>
     </form>
@@ -104,6 +104,10 @@
     <button class="mr-1" mat-raised-button color="primary" (click)="persistData(doubleEntryRows)">
         <mat-icon aria-hidden="false" style="top: -1px; position: relative; left: -1px;">save</mat-icon>
         Salva
+    </button>
+    <button class="mr-1" mat-raised-button color="primary" routerLink="print">
+        <mat-icon aria-hidden="false" style="top: -1px; position: relative; left: -1px;">print</mat-icon>
+        Stampa
     </button>
     <button class="mr-1" mat-raised-button color="primary" (click)="downloadData(doubleEntryRows)">
         <mat-icon aria-hidden="false" style="top: -1px; position: relative; left: -1px;">file_download</mat-icon>
