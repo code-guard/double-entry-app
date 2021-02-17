@@ -16,7 +16,7 @@ export class DataPersistenceService {
 
     set(value: DoubleEntryRow[], expired: number = 0): void {
         this.localStorageService.set(this.KEY, value, expired, 's');
-        this.value = value;
+        // this.value = value;
     }
 
     remove(): void {
@@ -24,12 +24,13 @@ export class DataPersistenceService {
     }
 
     get(): DoubleEntryRow[] | null {
-        if (this.value) {
+        /*if (this.value) {
             return this.value;
-        }
+        }*/
 
-        this.value = this.localStorageService.get(this.KEY);
-        return this.value;
+        // this.value = this.localStorageService.get(this.KEY);
+        // return this.value;
+        return this.localStorageService.get(this.KEY);
     }
 
     clear(): void {

@@ -26,7 +26,7 @@ export class ImportDataDialogComponent {
 
     import(): void {
         this.dataPersistenceService.set(this.doubleEntries as DoubleEntryRow[]);
-        this.matDialogRef.close();
+        this.matDialogRef.close(true);
     }
 
     onFileSelect(input: any): void {
