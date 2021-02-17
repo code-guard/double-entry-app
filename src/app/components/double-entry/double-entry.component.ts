@@ -45,11 +45,11 @@ export class DoubleEntryComponent {
         private matDialog: MatDialog,
     ) {
         this.initData();
+        console.log('Init');
     }
 
     private initData(): void {
         this.doubleEntryRows = this.dataPersistenceService.get() || [];
-        this.doubleEntryRows.splice(-1, 1);
         this.dataSource = new MatTableDataSource<DoubleEntryRow>(this.doubleEntryRows);
         this.confirmRow();
     }
@@ -200,6 +200,8 @@ export class DoubleEntryComponent {
     }
 
     downloadData(doubleEntryRows: DoubleEntryRow[]): void {
+        // Removing blank row
+        doubleEntryRows.splice(doubleEntryRows.length - 1 ,  1);
         const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(doubleEntryRows));
         const dlAnchorElem = document.getElementById('downloadAnchorElem');
         // @ts-ignore
@@ -211,8 +213,10 @@ export class DoubleEntryComponent {
     }
 
     importData(): void {
-        this.matDialog.open(ImportDataDialogComponent).afterClosed().subscribe(() => {
-            this.initData();
+        this.matDialog.open(ImportDataDialogComponent).afterClosed().subscribe(result => {
+            if (result) {
+                this.initData();
+            }
         });
     }
 
