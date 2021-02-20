@@ -25,105 +25,78 @@ export class DoubleEntryComponent {
     // @ts-ignore
     dataSource: MatTableDataSource<DoubleEntryRow>;
     // @ts-ignore
-    rowData: DoubleEntryRow;
-    // @ts-ignore
     doubleEntryRows: DoubleEntryRow[];
-    doubleEntryForm = new FormGroup({
-        code: new FormControl('', Validators.pattern('^[0-9]*$')),
-        date: new FormControl(new Date(), Validators.required),
-        name: new FormControl('', Validators.required),
-        description: new FormControl(''),
-        give: new FormControl(null, Validators.min(1)),
-        take: new FormControl(null, Validators.min(1)),
-    }, {
-        validators: atLeastGiveOrTakeValidator,
-    });
+    doubleEntryForm: FormGroup;
 
     constructor(
         private matSnackBar: MatSnackBar,
         private dataPersistenceService: DataPersistenceService,
         private matDialog: MatDialog,
     ) {
+        this.doubleEntryForm = new FormGroup({
+            code:        new FormControl(null, Validators.pattern('^[0-9]*$')),
+            date:        new FormControl(null, Validators.required),
+            name:        new FormControl(null, Validators.required),
+            description: new FormControl(null),
+            give:        new FormControl(null, Validators.min(1)),
+            take:        new FormControl(null, Validators.min(1)),
+
+            id: new FormControl(),
+            isNew: new FormControl(),
+        }, {
+            validators: atLeastGiveOrTakeValidator,
+        });
+
+        DoubleEntryComponent.setFormValue(this.doubleEntryForm);
         this.initData();
-        console.log('Init');
+    }
+
+    // Fill or reset form data based on input
+    private static setFormValue(doubleEntryForm: FormGroup, value?: DoubleEntryRow): void {
+        if (!value) {
+            doubleEntryForm.setValue({
+                code: '',
+                date: new Date(),
+                name: '',
+                description: '',
+                give: null,
+                take: null,
+                id: uuidv4(),
+                isNew: true,
+            });
+        } else {
+            doubleEntryForm.setValue(value);
+        }
+
+        doubleEntryForm?.markAsPristine();
+        doubleEntryForm?.markAsUntouched();
     }
 
     private initData(): void {
-        this.doubleEntryRows = this.dataPersistenceService.get() || [];
+        this.doubleEntryRows = this.dataPersistenceService.get();
+        this.doubleEntryRows.push(this.doubleEntryForm.value);
         this.dataSource = new MatTableDataSource<DoubleEntryRow>(this.doubleEntryRows);
-        this.confirmRow();
     }
 
-    editRow(row: DoubleEntryRow): void {
-        if (this.rowData.isNew) {
-            this.doubleEntryRows.splice(this.doubleEntryRows.length - 1, 1);
-        }
-
-        this.rowData = this.doubleEntryRows[this.doubleEntryRows.indexOf(row)];
-        this.dataSource.filter = '';
+    private getValidRows(): DoubleEntryRow[] {
+        return this.doubleEntryRows.filter(row => !row.isNew);
     }
 
-    editRowForm(row: DoubleEntryRow, doubleEntryForm?: FormGroup): void{
-        if (this.rowData.isNew) {
-            this.doubleEntryRows.splice(this.doubleEntryRows.length - 1, 1);
-        }
-
-        this.rowData = this.doubleEntryRows[this.doubleEntryRows.indexOf(row)];
-        if (doubleEntryForm) {
-            doubleEntryForm.get('code')?.setValue(row.code);
-            doubleEntryForm.get('date')?.setValue(row.date);
-            doubleEntryForm.get('name')?.setValue(row.name);
-            doubleEntryForm.get('description')?.setValue(row.description);
-            doubleEntryForm.get('give')?.setValue(row.give);
-            doubleEntryForm.get('take')?.setValue(row.take);
-
-            doubleEntryForm?.markAsPristine();
-            doubleEntryForm?.markAsUntouched();
-        }
-        this.dataSource.filter = '';
-
+    editRow(row: DoubleEntryRow, doubleEntryForm: FormGroup): void {
+        DoubleEntryComponent.setFormValue(doubleEntryForm, row);
     }
 
-    discardEditRow(row: DoubleEntryRow, doubleEntryForm?: FormGroup): void {
-        if (doubleEntryForm) {
-            doubleEntryForm.get('code')?.setValue('');
-            doubleEntryForm.get('date')?.setValue(new Date());
-            doubleEntryForm.get('name')?.setValue('');
-            doubleEntryForm.get('description')?.setValue('');
-            doubleEntryForm.get('give')?.setValue(null);
-            doubleEntryForm.get('take')?.setValue(null);
-
-            doubleEntryForm?.markAsPristine();
-            doubleEntryForm?.markAsUntouched();
-        }
-        if (this.rowData) {
-            this.rowData.isNew = false;
-        }
-        this.rowData = {
-            id: uuidv4(),
-            code: null,
-            date: new Date(),
-            name: null,
-            description: null,
-            give: null,
-            take: null,
-            isNew: true,
-            hasBeenBalanced: false,
-        };
-        this.doubleEntryRows.push(this.rowData);
-        this.dataSource.filter = '';
+    discardEditRow(row: DoubleEntryRow, doubleEntryForm: FormGroup): void {
+        DoubleEntryComponent.setFormValue(doubleEntryForm);
     }
 
     deleteRow(row: DoubleEntryRow): void {
         this.doubleEntryRows.splice(this.doubleEntryRows.indexOf(row), 1);
-
-        // This needs to stay. Don't know why.
         this.dataSource.filter = '';
-
         this.matSnackBar.open('La riga è stata cancellata con successo.');
     }
 
-    confirm(row: DoubleEntryRow): void {
+    checkGroup(row: DoubleEntryRow): void {
         let total = 0;
 
         for (const data of this.doubleEntryRows) {
@@ -138,7 +111,7 @@ export class DoubleEntryComponent {
         }
 
         if (total === 0) {
-            this.matSnackBar.open('Balanced!');
+            this.matSnackBar.open('Bilanciate');
             // row.hasBeenBalances = true;
             this.doubleEntryRows[this.doubleEntryRows.indexOf(row)].hasBeenBalanced = true;
             this.dataSource.filter = '';
@@ -146,70 +119,56 @@ export class DoubleEntryComponent {
         }
 
         this.doubleEntryRows[this.doubleEntryRows.indexOf(row)].hasBeenBalanced = false;
-        this.matSnackBar.open('Not balanced');
+        this.matSnackBar.open('Non bilanciate');
     }
 
-    confirmRow(doubleEntryForm?: FormGroup): void {
-        if (doubleEntryForm) {
-            if (!doubleEntryForm.valid) {
-                return;
-            }
-
-            Object.keys(doubleEntryForm.value).forEach(key => {
-                // @ts-ignore
-                this.rowData[key] = doubleEntryForm.value[key];
-            });
-
-            doubleEntryForm.get('code')?.setValue('');
-            doubleEntryForm.get('date')?.setValue(new Date());
-            doubleEntryForm.get('name')?.setValue('');
-            doubleEntryForm.get('description')?.setValue('');
-            doubleEntryForm.get('give')?.setValue(null);
-            doubleEntryForm.get('take')?.setValue(null);
-
-            doubleEntryForm?.markAsPristine();
-            doubleEntryForm?.markAsUntouched();
+    confirmRow(doubleEntryForm: FormGroup): void {
+        // Ensure the form is valid
+        if (!doubleEntryForm.valid) {
+            return;
         }
 
-        if (this.rowData) {
-            this.rowData.isNew = false;
-            if (this.rowData.hasBeenBalanced){
-                this.confirm(this.rowData);
+        // Look for the current row in the array
+        let doubleEntryRow;
+        for (const row of this.doubleEntryRows) {
+            if (row.id !== doubleEntryForm.get('id')?.value) {
+                continue;
             }
+
+            doubleEntryRow = row;
+            break;
         }
 
-        this.rowData = {
-            id: uuidv4(),
-            code: null,
-            date: new Date(),
-            name: null,
-            description: null,
-            give: null,
-            take: null,
-            isNew: true,
-            hasBeenBalanced: false,
-        };
-        this.doubleEntryRows.push(this.rowData);
+        // Apply the new values
+        doubleEntryRow = Object.assign(doubleEntryRow, doubleEntryForm.value);
+        doubleEntryRow.isNew = false;
 
-        // This needs to stay. Don't know why.
-        this.dataSource.filter = '';
+        // If the row was balanced recompute data
+        if (doubleEntryRow.hasBeenBalanced) {
+            this.checkGroup(doubleEntryRow);
+        }
+
+        // Reset form
+        DoubleEntryComponent.setFormValue(doubleEntryForm);
+
+        // Save data and create a new line
+        this.persistData();
+        this.initData();
     }
 
-    persistData(doubleEntryRows: DoubleEntryRow[]): void {
-        this.dataPersistenceService.set(doubleEntryRows.filter(row => !row.isNew));
+    persistData(): void {
+        this.dataPersistenceService.set(this.getValidRows());
     }
 
-    downloadData(doubleEntryRows: DoubleEntryRow[]): void {
-        // Removing blank row
-        doubleEntryRows.splice(doubleEntryRows.length - 1 ,  1);
-        const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(doubleEntryRows));
-        const dlAnchorElem = document.getElementById('downloadAnchorElem');
-        // @ts-ignore
-        dlAnchorElem.setAttribute('href', dataStr);
-        // @ts-ignore
-        dlAnchorElem.setAttribute('download', 'partita-doppia-export.json');
-        // @ts-ignore
-        dlAnchorElem.click();
+    downloadData(): void {
+        const anchor = document.getElementById('downloadAnchorElem');
+        if (!anchor) {
+            return;
+        }
+
+        anchor.setAttribute('href', 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(this.getValidRows())));
+        anchor.setAttribute('download', 'partita-doppia-export.json');
+        anchor.click();
     }
 
     importData(): void {
@@ -225,24 +184,14 @@ export class DoubleEntryComponent {
             data: {
                 title: 'Sei sicuro di voler eliminare tutto il progetto?',
                 message: 'Non sarà possibile recuperarlo successivamente.',
-                // actions: [
-                //     {
-                //         text: 'Sì',
-                //         actionName: string | boolean
-                //     }
-                // ],
             }
         }).afterClosed().subscribe(result => {
             if (!result) {
                 return;
             }
 
-            this.doubleEntryRows.splice(0, --this.doubleEntryRows.length);
             this.dataPersistenceService.clear();
-            this.confirmRow();
-
-            // This needs to stay. Don't know why.
-            this.dataSource.filter = '';
+            this.initData();
         });
     }
 }

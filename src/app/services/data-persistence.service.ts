@@ -23,14 +23,14 @@ export class DataPersistenceService {
         this.localStorageService.remove(this.KEY);
     }
 
-    get(): DoubleEntryRow[] | null {
+    get(): DoubleEntryRow[] {
         /*if (this.value) {
             return this.value;
         }*/
 
         // this.value = this.localStorageService.get(this.KEY);
         // return this.value;
-        return this.localStorageService.get(this.KEY);
+        return this.localStorageService.get(this.KEY) || [];
     }
 
     clear(): void {
