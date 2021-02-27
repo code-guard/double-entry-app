@@ -1,4 +1,5 @@
 import { FormGroup } from '@angular/forms';
+import { v4 } from 'uuid';
 
 export class DoubleEntryRow {
     id: string;
@@ -34,7 +35,7 @@ export class DoubleEntryRow {
         const value = form.value;
 
         return new DoubleEntryRow(
-            value.id,
+            value.id ? value.id : v4(),
             value.code,
             value.date,
             value.name,

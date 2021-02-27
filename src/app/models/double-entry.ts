@@ -19,7 +19,7 @@ export class DoubleEntry extends Array<DoubleEntryRow> {
     }
 
     static createFromLocalStorage(localStorageValue: object[]): DoubleEntry {
-        return DoubleEntry.create(localStorageValue.map(row => {
+        return DoubleEntry.create(Object.values(localStorageValue).filter(row => typeof row === 'object').map(row => {
             return DoubleEntryRow.createFromLocalStorage(row as DoubleEntryRow);
         }));
     }

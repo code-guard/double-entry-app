@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
 import { v4 as uuidv4 } from 'uuid';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DataPersistenceService } from '../../services/data-persistence.service';
@@ -9,6 +8,7 @@ import { BooleanDialogComponent } from '../boolean-dialog/boolean-dialog.compone
 import { ImportDataDialogComponent } from '../import-data-dialog/import-data-dialog.component';
 import { exactlyOneFilledFieldValidator } from '../../validators/exactly-one-filled-field.validator';
 import { DoubleEntryRow } from '../../models/double-entry-row.model';
+import { DoubleEntry } from '../../models/double-entry';
 
 @Component({
     selector: 'app-double-entry',
@@ -16,8 +16,7 @@ import { DoubleEntryRow } from '../../models/double-entry-row.model';
     styleUrls: ['./double-entry.component.scss']
 })
 export class DoubleEntryComponent {
-    dataSource!: MatTableDataSource<DoubleEntryRow>;
-    doubleEntryRows!: DoubleEntryRow[];
+    doubleEntry: DoubleEntry;
     doubleEntryForm = new FormGroup({
         code:        new FormControl(null, Validators.pattern('^[0-9]*$')),
         date:        new FormControl(null, Validators.required),
@@ -37,7 +36,7 @@ export class DoubleEntryComponent {
         private matDialog: MatDialog,
     ) {
         DoubleEntryComponent.setFormValue(this.doubleEntryForm);
-        this.initData();
+        this.doubleEntry = this.dataPersistenceService.get();
     }
 
     // Fill or reset form data based on input
@@ -60,16 +59,6 @@ export class DoubleEntryComponent {
         doubleEntryForm?.markAsUntouched();
     }
 
-    private initData(): void {
-        this.doubleEntryRows = this.dataPersistenceService.get();
-        // this.doubleEntryRows.push(this.doubleEntryForm.value);
-        this.dataSource = new MatTableDataSource<DoubleEntryRow>(this.doubleEntryRows);
-    }
-
-    private getValidRows(): DoubleEntryRow[] {
-        return this.doubleEntryRows.filter(row => row.id);
-    }
-
     editRow(row: DoubleEntryRow, doubleEntryForm: FormGroup): void {
         DoubleEntryComponent.setFormValue(doubleEntryForm, row);
     }
@@ -79,15 +68,15 @@ export class DoubleEntryComponent {
     }
 
     deleteRow(row: DoubleEntryRow): void {
-        this.doubleEntryRows.splice(this.doubleEntryRows.indexOf(row), 1);
-        this.dataSource.filter = '';
+        this.doubleEntry.splice(this.doubleEntry.indexOf(row), 1);
         this.matSnackBar.open('La riga è stata cancellata con successo.');
+        this.persistData();
     }
 
     checkGroup(row: DoubleEntryRow): void {
         let total = 0;
 
-        for (const data of this.doubleEntryRows) {
+        for (const data of this.doubleEntry) {
             // @ts-ignore
             total += data.give;
             // @ts-ignore
@@ -101,12 +90,11 @@ export class DoubleEntryComponent {
         if (total === 0) {
             this.matSnackBar.open('Bilanciate');
             // row.hasBeenBalances = true;
-            this.doubleEntryRows[this.doubleEntryRows.indexOf(row)].hasBeenBalanced = true;
-            this.dataSource.filter = '';
+            this.doubleEntry[this.doubleEntry.indexOf(row)].hasBeenBalanced = true;
             return;
         }
 
-        this.doubleEntryRows[this.doubleEntryRows.indexOf(row)].hasBeenBalanced = false;
+        this.doubleEntry[this.doubleEntry.indexOf(row)].hasBeenBalanced = false;
         this.matSnackBar.open('Non bilanciate');
     }
 
@@ -116,21 +104,20 @@ export class DoubleEntryComponent {
             return;
         }
 
-        // Look for the current row in the array
-        let doubleEntryRow;
-        for (const row of this.doubleEntryRows) {
-            if (row.id !== doubleEntryForm.get('id')?.value) {
-                continue;
+        const doubleEntryRow = DoubleEntryRow.createFromForm(doubleEntryForm);
+
+        const formRowId = doubleEntryForm.get('id')?.value;
+        if (formRowId === null) {
+            this.doubleEntry.push(doubleEntryRow);
+        } else {
+            for (let i = 0; i < this.doubleEntry.length; i++) {
+                if (this.doubleEntry[i].id !== formRowId) {
+                    continue;
+                }
+
+                this.doubleEntry[i] = doubleEntryRow;
+                break;
             }
-
-            doubleEntryRow = row;
-            break;
-        }
-
-        // Apply the new values
-        doubleEntryRow = Object.assign(doubleEntryRow, doubleEntryForm.value);
-        if (!doubleEntryRow.id) {
-            doubleEntryRow.id = uuidv4();
         }
 
         // If the row was balanced recompute data
@@ -143,11 +130,11 @@ export class DoubleEntryComponent {
 
         // Save data and create a new line
         this.persistData();
-        this.initData();
+        this.doubleEntry = this.dataPersistenceService.get();
     }
 
     persistData(): void {
-        this.dataPersistenceService.set(this.getValidRows());
+        this.dataPersistenceService.set(this.doubleEntry);
     }
 
     downloadData(): void {
@@ -156,7 +143,7 @@ export class DoubleEntryComponent {
             return;
         }
 
-        anchor.setAttribute('href', 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(this.getValidRows())));
+        anchor.setAttribute('href', 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(this.doubleEntry)));
         anchor.setAttribute('download', 'partita-doppia-export.json');
         anchor.click();
     }
@@ -164,7 +151,7 @@ export class DoubleEntryComponent {
     importData(): void {
         this.matDialog.open(ImportDataDialogComponent).afterClosed().subscribe(result => {
             if (result) {
-                this.initData();
+                this.doubleEntry = this.dataPersistenceService.get();
             }
         });
     }
@@ -181,7 +168,7 @@ export class DoubleEntryComponent {
             }
 
             this.dataPersistenceService.clear();
-            this.initData();
+            this.doubleEntry = this.dataPersistenceService.get();
         });
     }
 }
