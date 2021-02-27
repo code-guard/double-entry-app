@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { DoubleEntryRow } from '../../interfaces/double-entry-row';
 import { v4 as uuidv4 } from 'uuid';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DataPersistenceService } from '../../services/data-persistence.service';
@@ -9,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { BooleanDialogComponent } from '../boolean-dialog/boolean-dialog.component';
 import { ImportDataDialogComponent } from '../import-data-dialog/import-data-dialog.component';
 import { exactlyOneFilledFieldValidator } from '../../validators/exactly-one-filled-field.validator';
+import { DoubleEntryRow } from '../../models/double-entry-row.model';
 
 @Component({
     selector: 'app-double-entry',
@@ -62,12 +62,12 @@ export class DoubleEntryComponent {
 
     private initData(): void {
         this.doubleEntryRows = this.dataPersistenceService.get();
-        this.doubleEntryRows.push(this.doubleEntryForm.value);
+        // this.doubleEntryRows.push(this.doubleEntryForm.value);
         this.dataSource = new MatTableDataSource<DoubleEntryRow>(this.doubleEntryRows);
     }
 
     private getValidRows(): DoubleEntryRow[] {
-        return this.doubleEntryRows.filter(row => !row.id);
+        return this.doubleEntryRows.filter(row => row.id);
     }
 
     editRow(row: DoubleEntryRow, doubleEntryForm: FormGroup): void {
@@ -129,7 +129,9 @@ export class DoubleEntryComponent {
 
         // Apply the new values
         doubleEntryRow = Object.assign(doubleEntryRow, doubleEntryForm.value);
-        doubleEntryRow.id = uuidv4();
+        if (!doubleEntryRow.id) {
+            doubleEntryRow.id = uuidv4();
+        }
 
         // If the row was balanced recompute data
         if (doubleEntryRow.hasBeenBalanced) {

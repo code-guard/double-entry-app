@@ -4,6 +4,7 @@ import { BasicDialogDataModel } from '../../interfaces/basic-dialog-data.model';
 import { FormControl, FormGroup } from '@angular/forms';
 import { DataPersistenceService } from '../../services/data-persistence.service';
 import { DoubleEntryRow } from '../../interfaces/double-entry-row';
+import { DoubleEntry } from '../../models/double-entry';
 
 @Component({
     selector: 'app-import-data-dialog',
@@ -25,7 +26,7 @@ export class ImportDataDialogComponent {
     }
 
     import(): void {
-        this.dataPersistenceService.set(this.doubleEntries as DoubleEntryRow[]);
+        this.dataPersistenceService.set(this.doubleEntries as DoubleEntry);
         this.matDialogRef.close(true);
     }
 

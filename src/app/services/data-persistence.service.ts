@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { LocalStorageService } from 'angular-web-storage';
-import { DoubleEntryRow } from '../interfaces/double-entry-row';
+import { DoubleEntry } from '../models/double-entry';
 
 @Injectable({
     providedIn: 'root'
@@ -12,9 +12,9 @@ export class DataPersistenceService {
     }
 
     KEY = 'doubleEntries';
-    value: DoubleEntryRow[] | null = null;
+    value: DoubleEntry | null = null;
 
-    set(value: DoubleEntryRow[], expired: number = 0): void {
+    set(value: DoubleEntry, expired: number = 0): void {
         this.localStorageService.set(this.KEY, value, expired, 's');
         // this.value = value;
     }
@@ -23,14 +23,16 @@ export class DataPersistenceService {
         this.localStorageService.remove(this.KEY);
     }
 
-    get(): DoubleEntryRow[] {
+    get(): DoubleEntry {
         /*if (this.value) {
             return this.value;
         }*/
 
         // this.value = this.localStorageService.get(this.KEY);
         // return this.value;
-        return this.localStorageService.get(this.KEY) || [];
+        const localStorageValues = this.localStorageService.get(this.KEY) || [];
+
+        return DoubleEntry.createFromLocalStorage(localStorageValues);
     }
 
     clear(): void {
