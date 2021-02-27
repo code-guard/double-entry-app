@@ -4,17 +4,11 @@ import { DoubleEntryRow } from '../../interfaces/double-entry-row';
 import { v4 as uuidv4 } from 'uuid';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DataPersistenceService } from '../../services/data-persistence.service';
-import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { BooleanDialogComponent } from '../boolean-dialog/boolean-dialog.component';
 import { ImportDataDialogComponent } from '../import-data-dialog/import-data-dialog.component';
-
-export const atLeastGiveOrTakeValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
-    const give = control.get('give');
-    const take = control.get('take');
-
-    return give?.value || take?.value ? null : { atLeastGiveOrTake: true };
-};
+import { exactlyOneFilledFieldValidator } from '../../validators/exactly-one-filled-field.validator';
 
 @Component({
     selector: 'app-double-entry',
@@ -22,31 +16,26 @@ export const atLeastGiveOrTakeValidator: ValidatorFn = (control: AbstractControl
     styleUrls: ['./double-entry.component.scss']
 })
 export class DoubleEntryComponent {
-    // @ts-ignore
-    dataSource: MatTableDataSource<DoubleEntryRow>;
-    // @ts-ignore
-    doubleEntryRows: DoubleEntryRow[];
-    doubleEntryForm: FormGroup;
+    dataSource!: MatTableDataSource<DoubleEntryRow>;
+    doubleEntryRows!: DoubleEntryRow[];
+    doubleEntryForm = new FormGroup({
+        code:        new FormControl(null, Validators.pattern('^[0-9]*$')),
+        date:        new FormControl(null, Validators.required),
+        name:        new FormControl(null, Validators.required),
+        description: new FormControl(null),
+        give:        new FormControl(null, Validators.min(1)),
+        take:        new FormControl(null, Validators.min(1)),
+
+        id: new FormControl(),
+    }, {
+        validators: exactlyOneFilledFieldValidator(['give', 'take']),
+    });
 
     constructor(
         private matSnackBar: MatSnackBar,
         private dataPersistenceService: DataPersistenceService,
         private matDialog: MatDialog,
     ) {
-        this.doubleEntryForm = new FormGroup({
-            code:        new FormControl(null, Validators.pattern('^[0-9]*$')),
-            date:        new FormControl(null, Validators.required),
-            name:        new FormControl(null, Validators.required),
-            description: new FormControl(null),
-            give:        new FormControl(null, Validators.min(1)),
-            take:        new FormControl(null, Validators.min(1)),
-
-            id: new FormControl(),
-            isNew: new FormControl(),
-        }, {
-            validators: atLeastGiveOrTakeValidator,
-        });
-
         DoubleEntryComponent.setFormValue(this.doubleEntryForm);
         this.initData();
     }
@@ -61,8 +50,7 @@ export class DoubleEntryComponent {
                 description: '',
                 give: null,
                 take: null,
-                id: uuidv4(),
-                isNew: true,
+                id: null,
             });
         } else {
             doubleEntryForm.setValue(value);
@@ -79,7 +67,7 @@ export class DoubleEntryComponent {
     }
 
     private getValidRows(): DoubleEntryRow[] {
-        return this.doubleEntryRows.filter(row => !row.isNew);
+        return this.doubleEntryRows.filter(row => !row.id);
     }
 
     editRow(row: DoubleEntryRow, doubleEntryForm: FormGroup): void {
@@ -141,7 +129,7 @@ export class DoubleEntryComponent {
 
         // Apply the new values
         doubleEntryRow = Object.assign(doubleEntryRow, doubleEntryForm.value);
-        doubleEntryRow.isNew = false;
+        doubleEntryRow.id = uuidv4();
 
         // If the row was balanced recompute data
         if (doubleEntryRow.hasBeenBalanced) {

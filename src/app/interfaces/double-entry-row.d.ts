@@ -6,6 +6,5 @@ export interface DoubleEntryRow {
     description: string | null;
     give: number | null;
     take: number | null;
-    isNew: boolean;
     hasBeenBalanced: boolean;
 }

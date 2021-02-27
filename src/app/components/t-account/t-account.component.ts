@@ -27,7 +27,7 @@ export class TAccountComponent implements OnInit {
         const tAccounts = {};
 
         this.doubleEntryRows.forEach(doubleEntryRow => {
-            if (doubleEntryRow.isNew) {
+            if (!doubleEntryRow.id) {
                 return;
             }
 
