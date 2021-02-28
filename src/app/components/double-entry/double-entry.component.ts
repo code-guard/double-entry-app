@@ -18,6 +18,11 @@ export class DoubleEntryComponent {
     doubleEntry: DoubleEntry;
     doubleEntryForm: FormGroup;
 
+    names = [
+        'test',
+        'test2',
+    ];
+
     constructor(
         private matSnackBar: MatSnackBar,
         private dataPersistenceService: DataPersistenceService,
@@ -48,6 +53,7 @@ export class DoubleEntryComponent {
 
     confirmRow(doubleEntryForm: FormGroup): void {
         // Ensure the form is valid
+        doubleEntryForm.markAllAsTouched();
         if (!doubleEntryForm.valid) {
             return;
         }

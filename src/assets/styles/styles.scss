@@ -29,13 +29,22 @@ main {
     width: 90%;
 }
 .mat-form-field-appearance-outline {
-    //width: 100%;
+    width: 100%;
 
     .mat-form-field-wrapper {
         padding: 0.5rem 0 !important;
         margin: 0;
     }
 }
+
+//.ng-select {
+//    padding-bottom: 0;
+//}
+//.ng-select .ng-select-container {
+//    margin: .25em 0;
+//    padding: 0.5rem 0 !important;
+//    //min-height: 55px;
+//}
 
 .float-right {
     float: right;

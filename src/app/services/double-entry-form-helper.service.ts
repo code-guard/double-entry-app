@@ -36,7 +36,7 @@ export class DoubleEntryFormHelperService {
             doubleEntryForm.setValue({
                 code: '',
                 date: new Date(),
-                name: '',
+                name: null,
                 description: '',
                 give: null,
                 take: null,

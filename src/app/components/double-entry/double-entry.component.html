@@ -16,10 +16,20 @@
         <span *ngIf="row.id !== doubleEntryForm.get('id')?.value">{{ row.date | date:'dd/MM/YYYY' }}</span>
     </td>
     <td>
-        <mat-form-field appearance="outline" *ngIf="row.id === doubleEntryForm.get('id')?.value">
-            <mat-label>Nome</mat-label>
-            <input matInput type="text" [formControl]="doubleEntryForm.get('name')">
-        </mat-form-field>
+        <ng-select appearance="outline"
+                   *ngIf="row.id === doubleEntryForm.get('id')?.value"
+                   [items]="names"
+                   [formControl]="doubleEntryForm.get('name')"
+                   addTagText="Aggiungi"
+                   [addTag]="true"
+                   [appendTo]="'body'"
+                   placeholder="Nome"
+        >
+        </ng-select>
+<!--        <mat-form-field appearance="outline" *ngIf="row.id === doubleEntryForm.get('id')?.value">-->
+<!--            <mat-label>Nome</mat-label>-->
+<!--            <input matInput type="text" [formControl]="doubleEntryForm.get('name')">-->
+<!--        </mat-form-field>-->
         <span *ngIf="row.id !== doubleEntryForm.get('id')?.value">{{ row.name }}</span>
     </td>
     <td>
