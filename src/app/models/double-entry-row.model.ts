@@ -9,7 +9,7 @@ export class DoubleEntryRow {
     description: string | null;
     give: number | null;
     take: number | null;
-    hasBeenBalanced: boolean;
+    hasBeenBalanced: boolean | null;
 
     constructor(
         id: string,
@@ -19,7 +19,7 @@ export class DoubleEntryRow {
         description: string | null,
         give: number | null,
         take: number | null,
-        hasBeenBalanced: boolean
+        hasBeenBalanced: boolean | null
     ) {
         this.id = id;
         this.code = code;
@@ -42,7 +42,7 @@ export class DoubleEntryRow {
             value.description,
             value.give,
             value.take,
-            value.hasBeenBalanced
+            value.hasBeenBalanced === undefined ? null : value.hasBeenBalanced,
         );
     }
 
@@ -55,7 +55,7 @@ export class DoubleEntryRow {
             value.description,
             value.give,
             value.take,
-            value.hasBeenBalanced
+            value.hasBeenBalanced === undefined ? null : value.hasBeenBalanced,
         );
     }
 }

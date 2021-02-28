@@ -11,8 +11,26 @@ main {
     padding: 25px;
 }
 
+.actions-cell button:last-of-type {
+    opacity: .25;
+}
+
+.balanced-row,
+.unbalanced-row {
+    border-bottom-width: 3px;
+    border-bottom-style: solid;
+
+    .actions-cell button:last-of-type {
+        opacity: 1;
+    }
+}
+
 .balanced-row {
-    border-bottom: 3px solid green;
+    border-bottom-color: green;
+}
+
+.unbalanced-row {
+    border-bottom-color: red;
 }
 
 .numeric-values {

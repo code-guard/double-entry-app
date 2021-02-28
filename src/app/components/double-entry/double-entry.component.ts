@@ -15,13 +15,9 @@ import { DoubleEntryFormHelperService } from '../../services/double-entry-form-h
     styleUrls: ['./double-entry.component.scss']
 })
 export class DoubleEntryComponent {
-    doubleEntry: DoubleEntry;
+    doubleEntry!: DoubleEntry;
     doubleEntryForm: FormGroup;
-
-    names = [
-        'test',
-        'test2',
-    ];
+    names!: string[];
 
     constructor(
         private matSnackBar: MatSnackBar,
@@ -30,7 +26,22 @@ export class DoubleEntryComponent {
         private doubleEntryFormHelperService: DoubleEntryFormHelperService
     ) {
         this.doubleEntryForm = doubleEntryFormHelperService.getDoubleEntryForm();
+        this.initData();
+    }
+
+    private initData(): void {
         this.doubleEntry = this.dataPersistenceService.get();
+        const names = {
+            test: true,
+            test2: true,
+        };
+
+        this.doubleEntry.forEach(row => {
+            // @ts-ignore
+            names[row.name] = true;
+        });
+
+        this.names = Object.keys(names);
     }
 
     // When in editing mode a escape press in the keyboard cancel the changes
@@ -67,18 +78,14 @@ export class DoubleEntryComponent {
             this.doubleEntry[index] = doubleEntryRow;
         }
 
-        // @TODO Review this
-        // If the row was balanced recompute data
-        if (doubleEntryRow.hasBeenBalanced) {
-            this.checkGroup(doubleEntryRow);
-        }
+        this.rebalanceAll();
 
         // Reset form
         this.doubleEntryFormHelperService.applyFormValue(doubleEntryForm);
 
         // Save data and create a new line
         this.dataPersistenceService.set(this.doubleEntry);
-        this.doubleEntry = this.dataPersistenceService.get();
+        this.initData();
     }
 
     downloadData(): void {
@@ -95,7 +102,7 @@ export class DoubleEntryComponent {
     importData(): void {
         this.matDialog.open(ImportDataDialogComponent).afterClosed().subscribe(result => {
             if (result) {
-                this.doubleEntry = this.dataPersistenceService.get();
+                this.initData();
             }
         });
     }
@@ -112,35 +119,31 @@ export class DoubleEntryComponent {
             }
 
             this.dataPersistenceService.clear();
-            this.doubleEntry = this.dataPersistenceService.get();
+            this.initData();
         });
     }
 
+    rebalanceAll(): void {
+        let balanced = 0;
+        this.doubleEntry.forEach(row => {
+            console.log(balanced);
+            // @ts-ignore
+            balanced += row.take;
+            // @ts-ignore
+            balanced -= row.give;
 
-    // @TODO Review the following methods
+            if (row.hasBeenBalanced === null) {
+                return;
+            }
+
+            row.hasBeenBalanced = balanced === 0;
+            balanced = 0;
+        });
+    }
 
     checkGroup(row: DoubleEntryRow): void {
-        let total = 0;
-
-        for (const data of this.doubleEntry) {
-            // @ts-ignore
-            total += data.give;
-            // @ts-ignore
-            total -= data.take;
-
-            if (data === row) {
-                break;
-            }
-        }
-
-        if (total === 0) {
-            this.matSnackBar.open('Bilanciate');
-            // row.hasBeenBalances = true;
-            this.doubleEntry[this.doubleEntry.indexOf(row)].hasBeenBalanced = true;
-            return;
-        }
-
-        this.doubleEntry[this.doubleEntry.indexOf(row)].hasBeenBalanced = false;
-        this.matSnackBar.open('Non bilanciate');
+        row.hasBeenBalanced = row.hasBeenBalanced === null ? false : null;
+        this.rebalanceAll();
+        this.dataPersistenceService.set(this.doubleEntry);
     }
 }

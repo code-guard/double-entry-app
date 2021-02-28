@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { DoubleEntryRow } from '../../interfaces/double-entry-row';
 import { TAccount } from '../../interfaces/t-account';
 import { v4 as uuidv4 } from 'uuid';
 import { DataPersistenceService } from '../../services/data-persistence.service';
+import { DoubleEntry } from '../../models/double-entry';
 
 @Component({
     selector: 'app-t-account',
@@ -10,7 +10,7 @@ import { DataPersistenceService } from '../../services/data-persistence.service'
     styleUrls: ['./t-account.component.scss']
 })
 export class TAccountComponent implements OnInit {
-    doubleEntryRows: DoubleEntryRow[] = [];
+    doubleEntryRows!: DoubleEntry;
     tAccounts: TAccount[] = [];
 
     constructor(

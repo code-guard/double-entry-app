@@ -90,7 +90,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let row of doubleEntry" class="{{ row.hasBeenBalanced ? 'balanced-row' : null }}">
+                <tr *ngFor="let row of doubleEntry" class="{{ row.hasBeenBalanced === true ? 'balanced-row' : row.hasBeenBalanced === false ? 'unbalanced-row' : null }}">
                     <ng-template *ngTemplateOutlet="tableRow; context: { row: row, doubleEntryForm: doubleEntryForm }"></ng-template>
                 </tr>
                 <tr *ngIf="doubleEntryForm.get('id')?.value === null">

@@ -3,7 +3,6 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { BasicDialogDataModel } from '../../interfaces/basic-dialog-data.model';
 import { FormControl, FormGroup } from '@angular/forms';
 import { DataPersistenceService } from '../../services/data-persistence.service';
-import { DoubleEntryRow } from '../../interfaces/double-entry-row';
 import { DoubleEntry } from '../../models/double-entry';
 
 @Component({
@@ -12,7 +11,7 @@ import { DoubleEntry } from '../../models/double-entry';
     styleUrls: ['./import-data-dialog.component.scss']
 })
 export class ImportDataDialogComponent {
-    private doubleEntries?: DoubleEntryRow[];
+    private doubleEntries?: DoubleEntry;
 
     form = new FormGroup({
         file: new FormControl(),
