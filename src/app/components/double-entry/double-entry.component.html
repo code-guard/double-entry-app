@@ -29,21 +29,21 @@
         </mat-form-field>
         <span *ngIf="row.id !== doubleEntryForm.get('id')?.value">{{ row.description }}</span>
     </td>
-    <td>
+    <td class="numeric-values">
         <mat-form-field appearance="outline" *ngIf="row.id === doubleEntryForm.get('id')?.value">
             <mat-label>Dare</mat-label>
             <input matInput type="number" [formControl]="doubleEntryForm.get('give')">
         </mat-form-field>
         <span *ngIf="row.id !== doubleEntryForm.get('id')?.value">{{ row.give | currency:'EUR':'symbol':'0.2-2':'it-IT' }}</span>
     </td>
-    <td>
+    <td class="numeric-values">
         <mat-form-field appearance="outline" *ngIf="row.id === doubleEntryForm.get('id')?.value">
             <mat-label>Avere</mat-label>
             <input matInput type="number" [formControl]="doubleEntryForm.get('take')">
         </mat-form-field>
         <span *ngIf="row.id !== doubleEntryForm.get('id')?.value">{{ row.take | currency:'EUR':'symbol':'0.2-2':'it-IT' }}</span>
     </td>
-    <td>
+    <td class="actions-cell">
         <button type="submit" mat-icon-button color="primary" *ngIf="row.id === doubleEntryForm.get('id')?.value && row.id" (click)="confirmRow(doubleEntryForm)">
             <mat-icon aria-hidden="false">save</mat-icon>
         </button>
@@ -76,9 +76,9 @@
                     <th>Data</th>
                     <th>Nome</th>
                     <th>Descrizione</th>
-                    <th>Dare</th>
-                    <th>Avere</th>
-                    <th></th>
+                    <th class="numeric-values">Dare</th>
+                    <th class="numeric-values">Avere</th>
+                    <th class="actions-cell"></th>
                 </tr>
             </thead>
             <tbody>

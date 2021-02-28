@@ -25,9 +25,11 @@ main {
     margin-right: 1rem !important;
 }
 
-.mat-form-field-appearance-outline {
+.mat-form-field {
     width: 90%;
-    padding-right: 10%;
+}
+.mat-form-field-appearance-outline {
+    //width: 100%;
 
     .mat-form-field-wrapper {
         padding: 0.5rem 0 !important;
@@ -44,3 +46,5 @@ main {
         display: none !important;
     }
 }
+
+@import 'tables.scss';

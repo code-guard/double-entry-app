@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { v4 as uuidv4 } from 'uuid';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DataPersistenceService } from '../../services/data-persistence.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
