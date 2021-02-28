@@ -28,6 +28,7 @@ import { BasicDialogComponent } from './components/basic-dialog/basic-dialog.com
 import { BooleanDialogComponent } from './components/boolean-dialog/boolean-dialog.component';
 import { ImportDataDialogComponent } from './components/import-data-dialog/import-data-dialog.component';
 import { PrintComponent } from './pages/print/print.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 registerLocaleData(localeIt);
 
@@ -62,6 +63,7 @@ registerLocaleData(localeIt);
         MatGridListModule,
         ReactiveFormsModule,
         MatDialogModule,
+        DragDropModule,
     ],
     providers: [
         {

@@ -8,6 +8,7 @@ import { ImportDataDialogComponent } from '../import-data-dialog/import-data-dia
 import { DoubleEntryRow } from '../../models/double-entry-row.model';
 import { DoubleEntry } from '../../models/double-entry';
 import { DoubleEntryFormHelperService } from '../../services/double-entry-form-helper.service';
+import { CdkDragDrop } from '@angular/cdk/drag-drop/drag-events';
 
 @Component({
     selector: 'app-double-entry',
@@ -44,6 +45,12 @@ export class DoubleEntryComponent {
         this.names = Object.keys(names);
     }
 
+    // Rebalance rows and save data on DoubleEntry change
+    private onDataChange(): void {
+        this.rebalanceAll();
+        this.dataPersistenceService.set(this.doubleEntry);
+    }
+
     // When in editing mode a escape press in the keyboard cancel the changes
     @HostListener('document:keydown.escape', ['$event']) onKeydownHandler(event: KeyboardEvent): void {
         if (this.doubleEntryForm.get('id')?.value !== null) {
@@ -54,12 +61,12 @@ export class DoubleEntryComponent {
     // Applies the form values to the provided row or restore previous values
     toggleEditMode(doubleEntryForm: FormGroup, row?: DoubleEntryRow): void {
         this.doubleEntryFormHelperService.applyFormValue(doubleEntryForm, row);
-        this.dataPersistenceService.set(this.doubleEntry);
+        this.onDataChange();
     }
 
     deleteRow(row: DoubleEntryRow): void {
         this.doubleEntry.splice(this.doubleEntry.indexOf(row), 1);
-        this.dataPersistenceService.set(this.doubleEntry);
+        this.onDataChange();
     }
 
     confirmRow(doubleEntryForm: FormGroup): void {
@@ -78,13 +85,11 @@ export class DoubleEntryComponent {
             this.doubleEntry[index] = doubleEntryRow;
         }
 
-        this.rebalanceAll();
-
         // Reset form
         this.doubleEntryFormHelperService.applyFormValue(doubleEntryForm);
 
         // Save data and create a new line
-        this.dataPersistenceService.set(this.doubleEntry);
+        this.onDataChange();
         this.initData();
     }
 
@@ -126,11 +131,8 @@ export class DoubleEntryComponent {
     rebalanceAll(): void {
         let balanced = 0;
         this.doubleEntry.forEach(row => {
-            console.log(balanced);
-            // @ts-ignore
-            balanced += row.take;
-            // @ts-ignore
-            balanced -= row.give;
+            balanced += row.take ? row.take : 0;
+            balanced -= row.give ? row.give : 0;
 
             if (row.hasBeenBalanced === null) {
                 return;
@@ -143,7 +145,15 @@ export class DoubleEntryComponent {
 
     checkGroup(row: DoubleEntryRow): void {
         row.hasBeenBalanced = row.hasBeenBalanced === null ? false : null;
-        this.rebalanceAll();
-        this.dataPersistenceService.set(this.doubleEntry);
+        this.onDataChange();
+    }
+
+    onDrop(event: CdkDragDrop<DoubleEntryRow>): void {
+        const row = this.doubleEntry[event.previousIndex];
+
+        this.doubleEntry.splice(event.previousIndex, 1);
+        this.doubleEntry.splice(event.currentIndex, 0, row);
+
+        this.onDataChange();
     }
 }
