@@ -47,13 +47,13 @@
         <button type="submit" mat-icon-button color="primary" *ngIf="row.id === doubleEntryForm.get('id')?.value && row.id" (click)="confirmRow(doubleEntryForm)">
             <mat-icon aria-hidden="false">save</mat-icon>
         </button>
-        <button type="button" mat-icon-button color="primary" *ngIf="row.id === doubleEntryForm.get('id')?.value && row.id" (click)="discardEditRow(row, doubleEntryForm)">
+        <button type="button" mat-icon-button color="primary" *ngIf="row.id === doubleEntryForm.get('id')?.value && row.id" (click)="toggleEditMode(doubleEntryForm)">
             <mat-icon aria-hidden="false">close</mat-icon>
         </button>
         <button type="submit" mat-icon-button color="primary" *ngIf="row.id === doubleEntryForm.get('id')?.value && !row.id" (click)="confirmRow(doubleEntryForm)">
             <mat-icon aria-hidden="false">add</mat-icon>
         </button>
-        <button type="button" mat-icon-button color="primary" *ngIf="row.id !== doubleEntryForm.get('id')?.value" (click)="editRow(row, doubleEntryForm)">
+        <button type="button" mat-icon-button color="primary" *ngIf="row.id !== doubleEntryForm.get('id')?.value" (click)="toggleEditMode(doubleEntryForm, row)">
             <mat-icon aria-hidden="false">edit</mat-icon>
         </button>
         <button type="button" mat-icon-button color="primary" *ngIf="row.id !== doubleEntryForm.get('id')?.value" (click)="deleteRow(row)">
@@ -64,8 +64,6 @@
         </button>
     </td>
 </ng-template>
-
-
 
 <main>
     <form [formGroup]="doubleEntryForm">
@@ -90,9 +88,28 @@
                 </tr>
             </tbody>
         </table>
+    </form>
 
+    <br>
 
-
+    <button class="mr-1" mat-raised-button color="primary" routerLink="print">
+        <mat-icon aria-hidden="false" style="top: -1px; position: relative; left: -1px;">print</mat-icon>
+        Stampa
+    </button>
+    <button class="mr-1" mat-raised-button color="primary" (click)="downloadData()">
+        <mat-icon aria-hidden="false" style="top: -1px; position: relative; left: -1px;">file_download</mat-icon>
+        Scarica progetto
+        <a id="downloadAnchorElem"></a>
+    </button>
+    <button mat-raised-button color="primary" (click)="importData()">
+        <mat-icon aria-hidden="false" style="top: -1px; position: relative; left: -1px;">publish</mat-icon>
+        Importa progetto
+    </button>
+    <button mat-raised-button color="warn" (click)="reset()" class="float-right">
+        <mat-icon aria-hidden="false" style="top: -1px; position: relative; left: -1px;">delete_forever</mat-icon>
+        Reset
+    </button>
+</main>
 
 <!--        <mat-table [dataSource]="dataSource" class="mat-elevation-z8">-->
 <!--            <ng-container matColumnDef="code">-->
@@ -192,29 +209,3 @@
 <!--                class="{{ row.hasBeenBalanced ? 'balanced-row' : null }}"-->
 <!--            ></mat-row>-->
 <!--        </mat-table>-->
-    </form>
-
-    <br>
-
-    <button class="mr-1" mat-raised-button color="primary" (click)="persistData()">
-        <mat-icon aria-hidden="false" style="top: -1px; position: relative; left: -1px;">save</mat-icon>
-        Salva
-    </button>
-    <button class="mr-1" mat-raised-button color="primary" routerLink="print">
-        <mat-icon aria-hidden="false" style="top: -1px; position: relative; left: -1px;">print</mat-icon>
-        Stampa
-    </button>
-    <button class="mr-1" mat-raised-button color="primary" (click)="downloadData()">
-        <mat-icon aria-hidden="false" style="top: -1px; position: relative; left: -1px;">file_download</mat-icon>
-        Scarica progetto
-        <a id="downloadAnchorElem"></a>
-    </button>
-    <button mat-raised-button color="primary" (click)="importData()">
-        <mat-icon aria-hidden="false" style="top: -1px; position: relative; left: -1px;">publish</mat-icon>
-        Importa progetto
-    </button>
-    <button mat-raised-button color="warn" (click)="reset()" class="float-right">
-        <mat-icon aria-hidden="false" style="top: -1px; position: relative; left: -1px;">delete_forever</mat-icon>
-        Reset
-    </button>
-</main>

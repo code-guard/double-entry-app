@@ -6,13 +6,13 @@ import { DoubleEntry } from '../models/double-entry';
     providedIn: 'root'
 })
 export class DataPersistenceService {
+    KEY = 'doubleEntries';
+    value: DoubleEntry | null = null;
+
     constructor(
         private localStorageService: LocalStorageService
     ) {
     }
-
-    KEY = 'doubleEntries';
-    value: DoubleEntry | null = null;
 
     set(value: DoubleEntry, expired: number = 0): void {
         this.localStorageService.set(this.KEY, value, expired, 's');

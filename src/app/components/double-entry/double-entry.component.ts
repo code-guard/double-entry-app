@@ -1,13 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DataPersistenceService } from '../../services/data-persistence.service';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { BooleanDialogComponent } from '../boolean-dialog/boolean-dialog.component';
 import { ImportDataDialogComponent } from '../import-data-dialog/import-data-dialog.component';
-import { exactlyOneFilledFieldValidator } from '../../validators/exactly-one-filled-field.validator';
 import { DoubleEntryRow } from '../../models/double-entry-row.model';
 import { DoubleEntry } from '../../models/double-entry';
+import { DoubleEntryFormHelperService } from '../../services/double-entry-form-helper.service';
 
 @Component({
     selector: 'app-double-entry',
@@ -16,85 +16,34 @@ import { DoubleEntry } from '../../models/double-entry';
 })
 export class DoubleEntryComponent {
     doubleEntry: DoubleEntry;
-    doubleEntryForm = new FormGroup({
-        code:        new FormControl(null, Validators.pattern('^[0-9]*$')),
-        date:        new FormControl(null, Validators.required),
-        name:        new FormControl(null, Validators.required),
-        description: new FormControl(null),
-        give:        new FormControl(null, Validators.min(1)),
-        take:        new FormControl(null, Validators.min(1)),
-
-        id: new FormControl(),
-    }, {
-        validators: exactlyOneFilledFieldValidator(['give', 'take']),
-    });
+    doubleEntryForm: FormGroup;
 
     constructor(
         private matSnackBar: MatSnackBar,
         private dataPersistenceService: DataPersistenceService,
         private matDialog: MatDialog,
+        private doubleEntryFormHelperService: DoubleEntryFormHelperService
     ) {
-        DoubleEntryComponent.setFormValue(this.doubleEntryForm);
+        this.doubleEntryForm = doubleEntryFormHelperService.getDoubleEntryForm();
         this.doubleEntry = this.dataPersistenceService.get();
     }
 
-    // Fill or reset form data based on input
-    private static setFormValue(doubleEntryForm: FormGroup, value?: DoubleEntryRow): void {
-        if (!value) {
-            doubleEntryForm.setValue({
-                code: '',
-                date: new Date(),
-                name: '',
-                description: '',
-                give: null,
-                take: null,
-                id: null,
-            });
-        } else {
-            doubleEntryForm.setValue(value);
+    // When in editing mode a escape press in the keyboard cancel the changes
+    @HostListener('document:keydown.escape', ['$event']) onKeydownHandler(event: KeyboardEvent): void {
+        if (this.doubleEntryForm.get('id')?.value !== null) {
+            this.toggleEditMode(this.doubleEntryForm);
         }
-
-        doubleEntryForm?.markAsPristine();
-        doubleEntryForm?.markAsUntouched();
     }
 
-    editRow(row: DoubleEntryRow, doubleEntryForm: FormGroup): void {
-        DoubleEntryComponent.setFormValue(doubleEntryForm, row);
-    }
-
-    discardEditRow(row: DoubleEntryRow, doubleEntryForm: FormGroup): void {
-        DoubleEntryComponent.setFormValue(doubleEntryForm);
+    // Applies the form values to the provided row or restore previous values
+    toggleEditMode(doubleEntryForm: FormGroup, row?: DoubleEntryRow): void {
+        this.doubleEntryFormHelperService.applyFormValue(doubleEntryForm, row);
+        this.dataPersistenceService.set(this.doubleEntry);
     }
 
     deleteRow(row: DoubleEntryRow): void {
         this.doubleEntry.splice(this.doubleEntry.indexOf(row), 1);
-        this.matSnackBar.open('La riga è stata cancellata con successo.');
-        this.persistData();
-    }
-
-    checkGroup(row: DoubleEntryRow): void {
-        let total = 0;
-
-        for (const data of this.doubleEntry) {
-            // @ts-ignore
-            total += data.give;
-            // @ts-ignore
-            total -= data.take;
-
-            if (data === row) {
-                break;
-            }
-        }
-
-        if (total === 0) {
-            this.matSnackBar.open('Bilanciate');
-            // row.hasBeenBalances = true;
-            this.doubleEntry[this.doubleEntry.indexOf(row)].hasBeenBalanced = true;
-            return;
-        }
-
-        this.doubleEntry[this.doubleEntry.indexOf(row)].hasBeenBalanced = false;
-        this.matSnackBar.open('Non bilanciate');
+        this.dataPersistenceService.set(this.doubleEntry);
     }
 
     confirmRow(doubleEntryForm: FormGroup): void {
@@ -104,36 +53,26 @@ export class DoubleEntryComponent {
         }
 
         const doubleEntryRow = DoubleEntryRow.createFromForm(doubleEntryForm);
-
         const formRowId = doubleEntryForm.get('id')?.value;
         if (formRowId === null) {
             this.doubleEntry.push(doubleEntryRow);
         } else {
-            for (let i = 0; i < this.doubleEntry.length; i++) {
-                if (this.doubleEntry[i].id !== formRowId) {
-                    continue;
-                }
-
-                this.doubleEntry[i] = doubleEntryRow;
-                break;
-            }
+            const index = this.doubleEntry.getIndexOfDoubleEntryRow(doubleEntryRow);
+            this.doubleEntry[index] = doubleEntryRow;
         }
 
+        // @TODO Review this
         // If the row was balanced recompute data
         if (doubleEntryRow.hasBeenBalanced) {
             this.checkGroup(doubleEntryRow);
         }
 
         // Reset form
-        DoubleEntryComponent.setFormValue(doubleEntryForm);
+        this.doubleEntryFormHelperService.applyFormValue(doubleEntryForm);
 
         // Save data and create a new line
-        this.persistData();
-        this.doubleEntry = this.dataPersistenceService.get();
-    }
-
-    persistData(): void {
         this.dataPersistenceService.set(this.doubleEntry);
+        this.doubleEntry = this.dataPersistenceService.get();
     }
 
     downloadData(): void {
@@ -169,5 +108,33 @@ export class DoubleEntryComponent {
             this.dataPersistenceService.clear();
             this.doubleEntry = this.dataPersistenceService.get();
         });
+    }
+
+
+    // @TODO Review the following methods
+
+    checkGroup(row: DoubleEntryRow): void {
+        let total = 0;
+
+        for (const data of this.doubleEntry) {
+            // @ts-ignore
+            total += data.give;
+            // @ts-ignore
+            total -= data.take;
+
+            if (data === row) {
+                break;
+            }
+        }
+
+        if (total === 0) {
+            this.matSnackBar.open('Bilanciate');
+            // row.hasBeenBalances = true;
+            this.doubleEntry[this.doubleEntry.indexOf(row)].hasBeenBalanced = true;
+            return;
+        }
+
+        this.doubleEntry[this.doubleEntry.indexOf(row)].hasBeenBalanced = false;
+        this.matSnackBar.open('Non bilanciate');
     }
 }
