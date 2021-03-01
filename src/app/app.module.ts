@@ -29,6 +29,7 @@ import { BooleanDialogComponent } from './components/boolean-dialog/boolean-dial
 import { ImportDataDialogComponent } from './components/import-data-dialog/import-data-dialog.component';
 import { PrintComponent } from './pages/print/print.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { InfoDialogComponent } from './components/info-dialog/info-dialog.component';
 
 registerLocaleData(localeIt);
 
@@ -42,6 +43,7 @@ registerLocaleData(localeIt);
         BooleanDialogComponent,
         ImportDataDialogComponent,
         PrintComponent,
+        InfoDialogComponent,
     ],
     imports: [
         BrowserModule,

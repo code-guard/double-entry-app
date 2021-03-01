@@ -1,0 +1,57 @@
+<mat-toolbar color="primary">
+    <span>Partita doppia</span>
+</mat-toolbar>
+<!-- - Contact (via email? or form?)
+- Feature request (Google Form)
+- General "company" information
+- Release version
+- Link to Trello feature request-->
+<!--Contatti:
+Info:
+Developer team:
+Marketing team:-->
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+
+General info:
+Partita doppia
+<table mat-table [dataSource]="[{name:'App name', detail:'Partita Doppia®'},
+{name:'Version', detail:'Beta 1.0'},
+{name:'Changelog', detail:'Link Trello'},
+{name:'Domain', detail:'partitadoppia.app'},
+ ]" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="detail">
+        <th mat-header-cell *matHeaderCellDef> Details </th>
+        <td mat-cell *matCellDef="let element"> {{element.detail}}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="['name', 'detail']"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['name', 'detail'];"></tr>
+</table>
+
+Contact Info:
+<table mat-table [dataSource]="[{businessUnit:'Info', email:'hello@partitadoppia.app'},
+ {businessUnit:'Developing team', email:'paolo@partitadoppia.app, lorenzo@partitadoppia.app'},
+ {businessUnit:'Marketing', email:'giulia@partitadoppia.app'}]" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="businessUnit">
+        <th mat-header-cell *matHeaderCellDef> Business Unit </th>
+        <td mat-cell *matCellDef="let element"> {{element.businessUnit}}</td>
+    </ng-container>
+    <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef> Email </th>
+        <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="['businessUnit', 'email']"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['businessUnit', 'email'];"></tr>
+</table>
+
+Contact Info:
+

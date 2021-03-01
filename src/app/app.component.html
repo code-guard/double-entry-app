@@ -1,4 +1,17 @@
 <mat-toolbar color="primary">
     <span>Partita doppia</span>
+
+    <a href="https://www.buymeacoffee.com/partitadoppia" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 40px !important;width: 140px !important;" ></a>
+    <!--<script type="text/javascript" src="https://cdnjs.buymeacoffee.com/1.0.0/button.prod.min.js" data-name="bmc-button" data-slug="partitadoppia" data-color="#FFDD00" data-emoji="🚀" data-font="Cookie" data-text="Supportaci!" data-outline-color="#000000" data-font-color="#000000" data-coffee-color="#ffffff" ></script>-->
+    <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon" (click)="openInfoDialog()">
+        <mat-icon>info</mat-icon>
+    </button>
+    <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon" (click)="openFacebook()">
+        <mat-icon>facebook</mat-icon>
+    </button>
+    <button mat-mini-fab color="primary" aria-label="Example icon button with a menu icon" (click)="openInstagram()">
+        <mat-icon>home</mat-icon>
+    </button>
+
 </mat-toolbar>
 <router-outlet></router-outlet>
