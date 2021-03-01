@@ -1,9 +1,6 @@
 <ng-template #tableRow let-row="row" let-doubleEntryForm="doubleEntryForm">
     <td>
-        <div class="drag-handle">
-<!--            [ngTemplateOutlet]="dragHandleTmpl"-->
-            <ng-container >#</ng-container>
-        </div>
+        <mat-icon aria-hidden="false" class="drag-handle" *ngIf="row.id">drag_handle</mat-icon>
     </td>
     <td>
         <mat-form-field appearance="outline" *ngIf="row.id === doubleEntryForm.get('id')?.value">
@@ -35,10 +32,6 @@
         >
 
         </ng-select>
-<!--        <mat-form-field appearance="outline" *ngIf="row.id === doubleEntryForm.get('id')?.value">-->
-<!--            <mat-label>Nome</mat-label>-->
-<!--            <input matInput type="text" [formControl]="doubleEntryForm.get('name')">-->
-<!--        </mat-form-field>-->
         <span *ngIf="row.id !== doubleEntryForm.get('id')?.value">{{ row.name }}</span>
     </td>
     <td>
@@ -78,7 +71,7 @@
         <button type="button" mat-icon-button color="primary" *ngIf="row.id !== doubleEntryForm.get('id')?.value" (click)="deleteRow(row)">
             <mat-icon aria-hidden="false">delete</mat-icon>
         </button>
-        <button type="button" mat-icon-button color="primary" *ngIf="row.id !== doubleEntryForm.get('id')?.value" (click)="checkGroup(row)">
+        <button type="button" mat-icon-button color="primary" *ngIf="row.id !== doubleEntryForm.get('id')?.value" (click)="checkGroup(row)" class="faded-icon">
             <mat-icon aria-hidden="false">check</mat-icon>
         </button>
     </td>
@@ -89,7 +82,7 @@
         <table class="mat-elevation-z8 w-100">
             <thead>
                 <tr>
-                    <th scope="col">#</th>
+                    <th scope="col"></th>
                     <th>Codice</th>
                     <th>Data</th>
                     <th>Nome</th>

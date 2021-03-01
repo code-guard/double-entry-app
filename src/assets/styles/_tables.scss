@@ -43,3 +43,8 @@ th {
 .actions-cell {
     min-width: 120px;
 }
+
+.drag-handle {
+    cursor: ns-resize;
+    margin-top: 6px;
+}
