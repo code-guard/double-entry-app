@@ -25,12 +25,15 @@
         <ng-select appearance="outline"
                    *ngIf="row.id === doubleEntryForm.get('id')?.value"
                    [items]="names"
-                   [formControl]="doubleEntryForm.get('name')"
-                   addTagText="Aggiungi"
+                   [editableSearchTerm]="true"
                    [addTag]="true"
+                   addTagText="Aggiungi"
+                   [formControl]="doubleEntryForm.get('name')"
                    [appendTo]="'body'"
                    placeholder="Nome"
+                   [closeOnSelect]="false"
         >
+
         </ng-select>
 <!--        <mat-form-field appearance="outline" *ngIf="row.id === doubleEntryForm.get('id')?.value">-->
 <!--            <mat-label>Nome</mat-label>-->

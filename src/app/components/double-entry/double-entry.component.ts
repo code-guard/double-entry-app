@@ -33,8 +33,8 @@ export class DoubleEntryComponent {
     private initData(): void {
         this.doubleEntry = this.dataPersistenceService.get();
         const names = {
-            test: true,
-            test2: true,
+            'Crediti verso banca ': true,
+            'Cassa ': true,
         };
 
         this.doubleEntry.forEach(row => {
