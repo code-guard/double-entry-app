@@ -10,15 +10,9 @@ import {MatDialog} from '@angular/material/dialog';
 export class AppComponent {
     title = 'double-entry';
 
-    constructor(private matDialog: MatDialog) {
-    }
-
-    openFacebook(): void{
-        window.open('https://www.facebook.com/paritadoppiaapp', '_blank');
-    }
-
-    openInstagram(): void{
-        window.open('https://www.instagram.com/partitadoppia.app/', '_blank');
+    constructor(
+        private matDialog: MatDialog
+    ) {
     }
 
     openInfoDialog(): void {

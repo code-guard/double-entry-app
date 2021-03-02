@@ -1,0 +1,8 @@
+mat-toolbar {
+    justify-content: space-between;
+
+    > div:last-of-type {
+        display: flex;
+        align-items: center;
+    }
+}
