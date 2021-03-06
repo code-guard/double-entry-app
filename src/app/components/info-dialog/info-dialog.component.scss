@@ -1,0 +1,34 @@
+.profile-avatar {
+    display: flex;
+    margin: 0 10px 15px 10px;
+    float: left;
+
+    img {
+        border-radius: 15px;
+        border: 2px solid red;
+    }
+
+    &.avatar-gp img {
+        border-color: #F58ED3;
+    }
+
+    &.avatar-lg img {
+        border-color: #1E61D9;
+    }
+
+    &.avatar-pc img {
+        border-color: #ED7B24;
+    }
+
+    > span {
+        margin-left: 10px;
+    }
+
+    h2 {
+        margin-bottom: 0;
+    }
+}
+
+h2 {
+    margin-bottom: 5px;
+}

@@ -2,6 +2,6 @@
 <div mat-dialog-content>
     <form [formGroup]="form" (submit)="import()">
         <input type="file" formControlName="file" (change)="onFileSelect($event.target)">
-        <button mat-raised-button color="primary" type="submit">Carica</button>
+        <button mat-flat-button color="primary" type="submit">Carica</button>
     </form>
 </div>

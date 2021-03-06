@@ -1,8 +1,24 @@
 mat-toolbar {
     justify-content: space-between;
+}
 
-    > div:last-of-type {
+.toolbar-title {
+
+}
+
+.toolbar-credits {
+    > a {
+        margin: 0 8px;
+        margin-top: 9px;
+    }
+
+    &:last-of-type {
         display: flex;
         align-items: center;
+    }
+
+    .buy-me-coffee {
+        margin-top: 8px;
+        margin-right: 0;
     }
 }

@@ -16,12 +16,6 @@ export class AppComponent {
     }
 
     openInfoDialog(): void {
-        this.matDialog.open(InfoDialogComponent, {
-            data: {
-                title: 'Sei sicuro di voler eliminare tutto il progetto?',
-                message: 'Non sarà possibile recuperarlo successivamente.',
-            },
-            width: '40%',
-        });
+        this.matDialog.open(InfoDialogComponent);
     }
 }

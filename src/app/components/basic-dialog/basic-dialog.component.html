@@ -4,7 +4,7 @@
 </h1>
 <p mat-dialog-content [innerHTML]="data.message"></p>
 <mat-dialog-actions align="center">
-    <button mat-raised-button color="{{ i === 0 ? 'secondary' : 'primary' }}" *ngFor="let action of data.actions; let i = index"
+    <button mat-flat-button color="{{ i === 0 ? 'secondary' : 'primary' }}" *ngFor="let action of data.actions; let i = index"
             [mat-dialog-close]="action.actionName"
             cdkFocusInitial>{{ action.text }}
     </button>

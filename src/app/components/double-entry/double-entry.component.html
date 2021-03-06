@@ -109,20 +109,20 @@
 
     <br>
 
-    <button class="mr-1" mat-raised-button color="primary" routerLink="print">
+    <button class="mr-1" mat-flat-button color="primary" routerLink="print">
         <mat-icon aria-hidden="false" style="top: -1px; position: relative; left: -1px;">print</mat-icon>
         Stampa
     </button>
-    <button class="mr-1" mat-raised-button color="primary" (click)="downloadData()">
+    <button class="mr-1" mat-flat-button color="primary" (click)="downloadData()">
         <mat-icon aria-hidden="false" style="top: -1px; position: relative; left: -1px;">file_download</mat-icon>
         Scarica progetto
         <a id="downloadAnchorElem"></a>
     </button>
-    <button mat-raised-button color="primary" (click)="importData()">
+    <button mat-flat-button color="primary" (click)="importData()">
         <mat-icon aria-hidden="false" style="top: -1px; position: relative; left: -1px;">publish</mat-icon>
         Importa progetto
     </button>
-    <button mat-raised-button color="warn" (click)="reset()" class="float-right">
+    <button mat-flat-button color="warn" (click)="reset()" class="float-right">
         <mat-icon aria-hidden="false" style="top: -1px; position: relative; left: -1px;">delete_forever</mat-icon>
         Reset
     </button>
