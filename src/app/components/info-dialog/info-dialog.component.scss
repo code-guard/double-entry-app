@@ -8,16 +8,48 @@
         border: 2px solid red;
     }
 
+    &.avatar-app a:hover {
+        color: red;
+    }
+
+    &.avatar-app a:active {
+        color: red;
+    }
+
     &.avatar-gp img {
         border-color: #F58ED3;
+    }
+
+    &.avatar-gp a:hover {
+        color: #F58ED3;
+    }
+
+    &.avatar-gp a:active {
+        color: #F58ED3;
     }
 
     &.avatar-lg img {
         border-color: #1E61D9;
     }
 
+    &.avatar-lg a:hover {
+        color: #1E61D9;
+    }
+
+    &.avatar-lg a:active {
+        color: #1E61D9;
+    }
+
     &.avatar-pc img {
         border-color: #ED7B24;
+    }
+
+    &.avatar-pc a:hover {
+        color: #ED7B24;
+    }
+
+    &.avatar-pc a:active {
+        color: #ED7B24;
     }
 
     > span {

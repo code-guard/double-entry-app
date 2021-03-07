@@ -3,7 +3,17 @@ mat-toolbar {
 }
 
 .toolbar-title {
+    display: flex;
 
+    > img {
+        height: 34px;
+        width: 32px;
+        margin-right: 8px;
+    }
+
+    > spam {
+        margin: 0 8px;
+    }
 }
 
 .toolbar-credits {
