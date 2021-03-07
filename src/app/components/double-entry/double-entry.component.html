@@ -19,19 +19,18 @@
         <span *ngIf="row.id !== doubleEntryForm.get('id')?.value">{{ row.date | date:'dd/MM/YYYY' }}</span>
     </td>
     <td>
-        <ng-select appearance="outline"
-                   *ngIf="row.id === doubleEntryForm.get('id')?.value"
-                   [items]="names"
-                   [editableSearchTerm]="true"
-                   [addTag]="true"
-                   addTagText="Aggiungi"
-                   [formControl]="doubleEntryForm.get('name')"
-                   [appendTo]="'body'"
-                   placeholder="Nome"
-                   [closeOnSelect]="false"
-        >
-
-        </ng-select>
+        <div class="mat-form-field" *ngIf="row.id === doubleEntryForm.get('id')?.value">
+            <ng-select appearance="outline"
+                       [items]="names"
+                       [editableSearchTerm]="true"
+                       [addTag]="true"
+                       addTagText="Aggiungi"
+                       [formControl]="doubleEntryForm.get('name')"
+                       [appendTo]="'body'"
+                       placeholder="Nome"
+                       [closeOnSelect]="false"
+            ></ng-select>
+        </div>
         <span *ngIf="row.id !== doubleEntryForm.get('id')?.value">{{ row.name }}</span>
     </td>
     <td>
