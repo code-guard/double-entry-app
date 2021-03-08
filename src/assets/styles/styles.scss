@@ -55,6 +55,11 @@ main {
     }
 }
 
+.mat-form-field-infix {
+    width: auto !important;
+    min-width: 75px !important;
+}
+
 //.ng-select {
 //    padding-bottom: 0;
 //}
