@@ -1,0 +1,16 @@
+@media print {
+    mat-toolbar {
+        display: none !important;
+    }
+
+    .row-composer {
+        display: none;
+    }
+
+    table.de-table {
+        th:first-of-type,
+        td:first-of-type {
+            display: none;
+        }
+    }
+}

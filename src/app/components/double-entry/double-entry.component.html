@@ -99,7 +99,7 @@
                 >
                     <ng-template *ngTemplateOutlet="tableRow; context: { row: row, doubleEntryForm: doubleEntryForm }"></ng-template>
                 </tr>
-                <tr *ngIf="doubleEntryForm.get('id')?.value === null">
+                <tr *ngIf="doubleEntryForm.get('id')?.value === null" class="row-composer">
                     <ng-template *ngTemplateOutlet="tableRow; context: { row: { id: null }, doubleEntryForm: doubleEntryForm }"></ng-template>
                 </tr>
             </tbody>
