@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, ViewChild } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DataPersistenceService } from '../../services/data-persistence.service';
 import { FormGroup } from '@angular/forms';
@@ -9,6 +9,7 @@ import { DoubleEntryRow } from '../../models/double-entry-row.model';
 import { DoubleEntry } from '../../models/double-entry';
 import { DoubleEntryFormHelperService } from '../../services/double-entry-form-helper.service';
 import { CdkDragDrop } from '@angular/cdk/drag-drop/drag-events';
+import { NgSelectComponent } from '@ng-select/ng-select';
 
 @Component({
     selector: 'app-double-entry',
@@ -19,6 +20,8 @@ export class DoubleEntryComponent {
     doubleEntry!: DoubleEntry;
     doubleEntryForm: FormGroup;
     names!: string[];
+    // @ts-ignore
+    @ViewChild(NgSelectComponent) ngSelectComponent: NgSelectComponent;
 
     constructor(
         private matSnackBar: MatSnackBar,
@@ -33,8 +36,41 @@ export class DoubleEntryComponent {
     private initData(): void {
         this.doubleEntry = this.dataPersistenceService.get();
         const names = {
-            'Crediti verso banca ': true,
-            'Cassa ': true,
+            'Fondo ammortamento': true,
+            Ammortamento: true,
+            'Crediti v/clienti': true,
+            'Cambiali attive': true,
+            'Cambiali passive': true,
+            'Fondo svalutazione crediti': true,
+            'Iva ns/credito': true,
+            'Iva ns/debito': true,
+            Assegni: true,
+            'Denaro in cassa': true,
+            'Ratei passivi': true,
+            'Ratei attivi': true,
+            'Risconti attivi': true,
+            'Risconti passivi': true,
+            'Capitale sociale': true,
+            Azionisti: true,
+            'Debiti per': true,
+            'Crediti per': true,
+            'Mutui passivi': true,
+            'Mutui attivi': true,
+            'Fatture da ricevere': true,
+            'Fatture da emettere': true,
+            Banca: true,
+            'Fitti attivi': true,
+            'Fitti passivi': true,
+            Plusvalenze: true,
+            'Sopravvenienze attive': true,
+            Costi: true,
+            'Salari e stipendi': true,
+            TFR: true,
+            Svalutazione: true,
+            Accantonamento: true,
+            Fondo: true,
+            Minusvalenze: true,
+            'Insussistenze pass': true,
         };
 
         this.doubleEntry.forEach(row => {
@@ -87,6 +123,7 @@ export class DoubleEntryComponent {
 
         // Reset form
         this.doubleEntryFormHelperService.applyFormValue(doubleEntryForm);
+        this.ngSelectComponent.handleClearClick();
 
         // Save data and create a new line
         this.onDataChange();

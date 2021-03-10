@@ -29,6 +29,7 @@
                        [appendTo]="'body'"
                        placeholder="Nome"
                        [closeOnSelect]="false"
+                       #NgSelectComponent
             ></ng-select>
         </div>
         <span *ngIf="row.id !== doubleEntryForm.get('id')?.value">{{ row.name }}</span>
