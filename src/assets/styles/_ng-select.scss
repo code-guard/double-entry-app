@@ -33,3 +33,22 @@
 .ng-select.ng-invalid.ng-touched .ng-select-container .ng-placeholder {
     color: #f44336;
 }
+
+.ng-select .ng-dropdown-panel {
+    width: auto !important;
+    max-width: 100px;
+}
+
+/*.ng-dropdown-panel{
+    width: auto !important;
+    max-width: 100px;
+}*/
+
+/*.ng-select.auto-grow {
+    max-width: inherit;
+    .ng-dropdown-panel {
+        width: auto;
+    }
+}*/
+
+
