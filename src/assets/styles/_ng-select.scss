@@ -39,16 +39,7 @@
     max-width: 100px;
 }
 
-/*.ng-dropdown-panel{
+// For auto-growing dropdown
+.ng-dropdown-panel{
     width: auto !important;
-    max-width: 100px;
-}*/
-
-/*.ng-select.auto-grow {
-    max-width: inherit;
-    .ng-dropdown-panel {
-        width: auto;
-    }
-}*/
-
-
+}
