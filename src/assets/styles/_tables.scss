@@ -49,3 +49,16 @@ table.de-table {
     }
 
 }
+
+@media print {
+    table.de-table {
+        > * > * > td,
+        > * > * > th {
+            padding: 5px 10px;
+
+            &:last-of-type {
+                display: none;
+            }
+        }
+    }
+}

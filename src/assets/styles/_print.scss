@@ -1,4 +1,8 @@
 @media print {
+    @page {
+        size: A4 landscape;
+    }
+
     mat-toolbar {
         display: none !important;
     }
@@ -12,5 +16,40 @@
         td:first-of-type {
             display: none;
         }
+    }
+
+    button,
+    mat-header-cell:last-of-type,
+    mat-cell:last-of-type,
+    mat-row:last-of-type,
+    mat-toolbar {
+        display: none;
+    }
+
+    main {
+        padding: 0;
+    }
+
+    .mat-elevation-z8 {
+        box-shadow: initial;
+    }
+
+    mat-card {
+        box-shadow: none !important;
+        margin: 0 1.5mm 10mm 1.5mm !important;
+        padding: 0 !important;
+    }
+
+    .page-break {
+        page-break-after: always;
+    }
+
+    header.onlyprint {
+        position: fixed;
+        top: 0;
+    }
+    footer.onlyprint {
+        position: fixed;
+        bottom: 0;
     }
 }

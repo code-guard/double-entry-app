@@ -18,6 +18,10 @@
         padding-top: 2px;
         padding-bottom: 2px;
 
+        &:first-of-type {
+            width: 75px;
+        }
+
         &:last-of-type {
             border-right: 0;
         }
@@ -26,4 +30,33 @@
 
 .t-account-row-header {
     border-bottom: 1px solid #000;
+}
+
+@media print {
+    main {
+        padding: 0;
+    }
+
+    .mat-elevation-z8 {
+        box-shadow: initial;
+    }
+
+    mat-card {
+        box-shadow: none !important;
+        margin: 0 1.5mm 10mm 1.5mm !important;
+        padding: 0 !important;
+    }
+
+    .page-break {
+        page-break-after: always;
+    }
+
+    header.onlyprint {
+        position: fixed;
+        top: 0;
+    }
+    footer.onlyprint {
+        position: fixed;
+        bottom: 0;
+    }
 }

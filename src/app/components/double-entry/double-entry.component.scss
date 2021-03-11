@@ -5,3 +5,21 @@
 form {
     overflow-x: auto;
 }
+
+::ng-deep mat-card-header {
+    max-width: 362px;
+}
+
+::ng-deep mat-card {
+    page-break-inside: avoid;
+}
+
+@media print {
+    button,
+    mat-header-cell:last-of-type,
+    mat-cell:last-of-type,
+    mat-row:last-of-type,
+    mat-toolbar {
+        display: none;
+    }
+}
