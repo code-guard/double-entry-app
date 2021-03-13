@@ -48,6 +48,10 @@ a .mat-icon {
             &:first-of-type {
                 margin-right: 5px;
             }
+
+            &:last-of-type {
+                font-style: italic;
+            }
         }
     }
 }
