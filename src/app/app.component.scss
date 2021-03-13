@@ -10,8 +10,12 @@ mat-toolbar {
     }
 }
 
+a .mat-icon {
+    color: #fff;
+}
+
 .toolbar-credits {
-    > a {
+    > a:not(.mat-icon-button) {
         margin: 0 8px;
         margin-top: 9px;
     }
@@ -20,7 +24,7 @@ mat-toolbar {
         display: flex;
         align-items: center;
     }
-    .buy-me-coffee {
+    > a.buy-me-coffee {
         margin: 0 0 0 8px;
     }
 
@@ -29,7 +33,6 @@ mat-toolbar {
 .buy-me-coffee {
     text-decoration: none;
     font-family: 'Comic Neue', cursive;
-    font-style: italic;
     font-weight: 600;
 
     div {
@@ -38,11 +41,17 @@ mat-toolbar {
         background-color: #fedd04;
         color: black;
         border-radius: 6px;
-        padding: 6px 11px;
+        padding: 6px 13px;
         box-sizing: border-box;
 
-        span:first-of-type {
-            margin-right: 8px;
+        span {
+            &:first-of-type {
+                margin-right: 5px;
+            }
         }
     }
+}
+
+footer {
+    text-align: center;
 }

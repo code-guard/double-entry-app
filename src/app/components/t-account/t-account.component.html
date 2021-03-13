@@ -1,23 +1,21 @@
-<!--<mat-grid-list cols="3" rowHeight="2:1">-->
-<!--    <mat-grid-tile *ngFor="let account of tAccounts">-->
-<div class="container">
-        <mat-card *ngFor="let account of tAccounts">
-            <mat-card-header>
-                <mat-card-title>{{ account.account }}</mat-card-title>
-            </mat-card-header>
-            <section>
-                <div class="t-account-row-header">
-                    <span class="t-account-row-date">Data</span>
-                    <span class="t-account-row-give">Dare</span>
-                    <span class="t-account-row-take">Avere</span>
-                </div>
-                <div class="t-account-row" *ngFor="let row of account.tAccountRows">
-                    <span class="t-account-row-date">{{ row.date | date:'dd/MM/YYYY' }}</span>
-                    <span class="t-account-row-give numeric-values">{{ row.give | currency }}</span>
-                    <span class="t-account-row-take numeric-values">{{ row.take | currency }}</span>
-                </div>
-            </section>
-        </mat-card>
-</div>
-<!--    </mat-grid-tile>-->
-<!--</mat-grid-list>-->
+<main>
+    <div class="container">
+            <mat-card *ngFor="let account of tAccounts">
+                <mat-card-header>
+                    <mat-card-title>{{ account.account }}</mat-card-title>
+                </mat-card-header>
+                <section>
+                    <div class="t-account-row-header">
+                        <span class="t-account-row-date">Data</span>
+                        <span class="t-account-row-give">Dare</span>
+                        <span class="t-account-row-take">Avere</span>
+                    </div>
+                    <div class="t-account-row" *ngFor="let row of account.tAccountRows">
+                        <span class="t-account-row-date">{{ row.date | date:'dd/MM/YYYY' }}</span>
+                        <span class="t-account-row-give numeric-values">{{ row.give | currency }}</span>
+                        <span class="t-account-row-take numeric-values">{{ row.take | currency }}</span>
+                    </div>
+                </section>
+            </mat-card>
+    </div>
+</main>

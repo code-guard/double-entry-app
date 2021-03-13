@@ -4,6 +4,15 @@
         <span>Partita Doppia</span>
     </div>
     <div class="toolbar-credits">
+        <a mat-icon-button href="mailto:hello@partitadoppia.app?subject=Da Partita Doppia App - &body=Ciao!"
+           target="_blank" #tooltip="matTooltip" matTooltip="Scrivici">
+            <mat-icon>email</mat-icon>
+        </a>
+
+        <a mat-icon-button href="https://forms.gle/3XMyxFPzx7b4ZZKa6" target="_blank" #tooltip="matTooltip" matTooltip="Lascia una recensione">
+            <mat-icon>reviews</mat-icon>
+        </a>
+
         <a href="https://www.facebook.com/paritadoppiaapp" target="_blank">
             <img src="assets/images/facebook.png" alt="Facebook logo" width="21px">
         </a>
@@ -24,3 +33,7 @@
     </div>
 </mat-toolbar>
 <router-outlet></router-outlet>
+<footer>
+    Copyright © 2021 Partita Doppia<br>
+    <em>Versione: {{ version }} (beta β)</em>
+</footer>

@@ -31,6 +31,7 @@ import { PrintComponent } from './pages/print/print.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { InfoDialogComponent } from './components/info-dialog/info-dialog.component';
 import { NgxGoogleAnalyticsModule, NgxGoogleAnalyticsRouterModule } from 'ngx-google-analytics';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 registerLocaleData(localeIt);
 
@@ -69,6 +70,7 @@ registerLocaleData(localeIt);
         DragDropModule,
         NgxGoogleAnalyticsModule.forRoot('G-M1M05E9LSD'),
         NgxGoogleAnalyticsRouterModule,
+        MatTooltipModule,
     ],
     providers: [
         {

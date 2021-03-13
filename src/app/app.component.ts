@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {InfoDialogComponent} from './components/info-dialog/info-dialog.component';
 import {MatDialog} from '@angular/material/dialog';
+import { environment } from '../environments/environment';
 
 @Component({
     selector: 'app-root',
@@ -9,6 +10,7 @@ import {MatDialog} from '@angular/material/dialog';
 })
 export class AppComponent {
     title = 'double-entry';
+    version = environment.version;
 
     constructor(
         private matDialog: MatDialog
