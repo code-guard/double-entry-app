@@ -8,29 +8,11 @@ body {
 }
 
 main {
-    padding: 25px;
+    padding: 25px 15px;
 }
 
 .actions-cell .faded-icon {
     opacity: .25;
-}
-
-.balanced-row,
-.unbalanced-row {
-    border-bottom-width: 3px;
-    border-bottom-style: solid;
-
-    .actions-cell .faded-icon {
-        opacity: 1;
-    }
-}
-
-.balanced-row {
-    border-bottom-color: green;
-}
-
-.unbalanced-row {
-    border-bottom-color: red;
 }
 
 .numeric-values {
