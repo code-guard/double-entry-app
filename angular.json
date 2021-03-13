@@ -31,7 +31,6 @@
                             "src/assets"
                         ],
                         "styles": [
-                            "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
                             "./node_modules/@ng-select/ng-select/themes/material.theme.css",
                             "src/assets/styles/styles.scss"
                         ],
@@ -96,7 +95,6 @@
                             "src/assets"
                         ],
                         "styles": [
-                            "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
                             "./node_modules/@ng-select/ng-select/themes/material.theme.css",
                             "src/assets/styles/styles.scss"
                         ],

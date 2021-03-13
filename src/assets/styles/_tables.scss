@@ -30,10 +30,6 @@ table.de-table {
 
         padding: 0 10px 0 10px;
 
-        &:first-of-type {
-            padding-left: 24px;
-        }
-
         &.no-padding {
             padding: 0;
         }
@@ -50,11 +46,11 @@ table.de-table {
     }
 
     .balanced-row {
-        border-bottom-color: green;
+        border-bottom-color: mat-color(mat-palette($mat-green), 600);
     }
 
     .unbalanced-row {
-        border-bottom-color: red;
+        border-bottom-color: $warn;
     }
 
     .actions-cell {

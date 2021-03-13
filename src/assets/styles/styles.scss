@@ -1,3 +1,14 @@
+@import "variables";
+@include mat-core();
+$app-theme: mat-light-theme((
+    color: (
+        primary: $app-primary,
+        accent: $app-accent,
+        warn: $app-warn,
+    )
+));
+@include angular-material-theme($app-theme);
+
 html, body {
     height: 100%;
 }

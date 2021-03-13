@@ -20,9 +20,29 @@ mat-toolbar {
         display: flex;
         align-items: center;
     }
-
     .buy-me-coffee {
-        margin-top: 8px;
-        margin-right: 0;
+        margin: 0 0 0 8px;
+    }
+
+}
+
+.buy-me-coffee {
+    text-decoration: none;
+    font-family: 'Comic Neue', cursive;
+    font-style: italic;
+    font-weight: 600;
+
+    div {
+        height: 40px !important;
+        width: 140px !important;
+        background-color: #fedd04;
+        color: black;
+        border-radius: 6px;
+        padding: 6px 11px;
+        box-sizing: border-box;
+
+        span:first-of-type {
+            margin-right: 8px;
+        }
     }
 }
