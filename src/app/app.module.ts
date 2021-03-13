@@ -30,6 +30,7 @@ import { ImportDataDialogComponent } from './components/import-data-dialog/impor
 import { PrintComponent } from './pages/print/print.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { InfoDialogComponent } from './components/info-dialog/info-dialog.component';
+import { NgxGoogleAnalyticsModule, NgxGoogleAnalyticsRouterModule } from 'ngx-google-analytics';
 
 registerLocaleData(localeIt);
 
@@ -66,6 +67,8 @@ registerLocaleData(localeIt);
         ReactiveFormsModule,
         MatDialogModule,
         DragDropModule,
+        NgxGoogleAnalyticsModule.forRoot('G-M1M05E9LSD'),
+        NgxGoogleAnalyticsRouterModule,
     ],
     providers: [
         {

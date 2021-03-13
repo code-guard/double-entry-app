@@ -24,6 +24,7 @@
     "@angular/router": "^11.2.3",
     "@ng-select/ng-select": "^5.1.0",
     "angular-web-storage": "^10.0.0",
+    "ngx-google-analytics": "^11.2.0",
     "rxjs": "^6.6.6",
     "tslib": "^2.0.0",
     "uuid": "^8.3.2",
