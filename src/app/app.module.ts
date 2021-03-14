@@ -1,4 +1,4 @@
-import { DEFAULT_CURRENCY_CODE, LOCALE_ID, NgModule } from '@angular/core';
+import { APP_INITIALIZER, DEFAULT_CURRENCY_CODE, ErrorHandler, LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -32,6 +32,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { InfoDialogComponent } from './components/info-dialog/info-dialog.component';
 import { NgxGoogleAnalyticsModule, NgxGoogleAnalyticsRouterModule } from 'ngx-google-analytics';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import * as Sentry from '@sentry/angular';
+import { Router } from '@angular/router';
 
 registerLocaleData(localeIt);
 
@@ -91,7 +93,23 @@ registerLocaleData(localeIt);
         {
             provide: DEFAULT_CURRENCY_CODE,
             useValue: 'EUR',
-        }
+        },
+        {
+            provide: ErrorHandler,
+            useValue: Sentry.createErrorHandler({
+                showDialog: true,
+            }),
+        },
+        {
+            provide: Sentry.TraceService,
+            deps: [Router],
+        },
+        {
+            provide: APP_INITIALIZER,
+            useFactory: () => () => {},
+            deps: [Sentry.TraceService],
+            multi: true,
+        },
     ],
     bootstrap: [AppComponent]
 })
