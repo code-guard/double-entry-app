@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import {InfoDialogComponent} from './components/info-dialog/info-dialog.component';
-import {MatDialog} from '@angular/material/dialog';
+import { InfoDialogComponent } from './components/info-dialog/info-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 import { environment } from '../environments/environment';
 
 @Component({

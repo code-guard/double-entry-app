@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { DoubleEntryRow } from '../../interfaces/double-entry-row';
 
 @Component({

@@ -1,5 +1,4 @@
 import { Component, HostListener, ViewChild } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { DataPersistenceService } from '../../services/data-persistence.service';
 import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -24,7 +23,6 @@ export class DoubleEntryComponent {
     @ViewChild(NgSelectComponent) ngSelectComponent: NgSelectComponent;
 
     constructor(
-        private matSnackBar: MatSnackBar,
         private dataPersistenceService: DataPersistenceService,
         private matDialog: MatDialog,
         private doubleEntryFormHelperService: DoubleEntryFormHelperService
