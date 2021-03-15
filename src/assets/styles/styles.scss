@@ -72,6 +72,15 @@ main {
     opacity: .1;
 }
 
+#portrait { display: none; }
+@media only screen and (orientation:portrait){
+    #landscape { display:none; }
+    #portrait { display:block; }
+}
+@media only screen and (orientation:landscape){
+    #portrait { display:none; }
+}
+
 @import 'drag-drop-table';
 @import 'tables';
 @import 'ng-select';
