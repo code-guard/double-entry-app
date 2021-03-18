@@ -72,13 +72,28 @@ main {
     opacity: .1;
 }
 
-#portrait { display: none; }
-@media only screen and (orientation:portrait){
-    #landscape { display:none; }
-    #portrait { display:block; }
+
+#portrait {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
 }
-@media only screen and (orientation:landscape){
-    #portrait { display:none; }
+
+@media only screen and (orientation: portrait) {
+    #landscape {
+        display: none;
+    }
+
+    #portrait {
+        display: flex;
+    }
+}
+
+@media only screen and (orientation: landscape) {
+    #portrait {
+        display: none;
+    }
 }
 
 @import 'drag-drop-table';
