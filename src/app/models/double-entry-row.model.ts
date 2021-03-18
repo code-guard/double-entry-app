@@ -5,6 +5,7 @@ export class DoubleEntryRow {
     id: string;
     code: string | null;
     date: Date;
+    variation: string;
     name: string;
     description: string | null;
     give: number | null;
@@ -15,6 +16,7 @@ export class DoubleEntryRow {
         id: string,
         code: string | null,
         date: Date,
+        variation: string,
         name: string,
         description: string | null,
         give: number | null,
@@ -24,6 +26,7 @@ export class DoubleEntryRow {
         this.id = id;
         this.code = code;
         this.date = date;
+        this.variation = variation;
         this.name = name;
         this.description = description;
         this.give = give;
@@ -38,6 +41,7 @@ export class DoubleEntryRow {
             value.id ? value.id : v4(),
             value.code,
             value.date,
+            value.variation,
             value.name,
             value.description,
             value.give,
@@ -51,6 +55,7 @@ export class DoubleEntryRow {
             value.id,
             value.code,
             new Date(value.date),
+            value.variation,
             value.name,
             value.description,
             value.give,

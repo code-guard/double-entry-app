@@ -21,6 +21,19 @@
     <td>
         <div class="mat-form-field" *ngIf="row.id === doubleEntryForm.get('id')?.value">
             <ng-select appearance="outline"
+                       [items]="variationOptions"
+                       [searchable]="false"
+                       addTagText="Variazione"
+                       [formControl]="doubleEntryForm.get('variation')"
+                       placeholder="Variazione"
+                       [clearable]="false"
+            ></ng-select>
+        </div>
+        <span *ngIf="row.id !== doubleEntryForm.get('id')?.value">{{ row.variation }}</span>
+    </td>
+    <td>
+        <div class="mat-form-field" *ngIf="row.id === doubleEntryForm.get('id')?.value">
+            <ng-select appearance="outline"
                        [items]="names"
                        [editableSearchTerm]="true"
                        [addTag]="true"
@@ -28,7 +41,6 @@
                        [formControl]="doubleEntryForm.get('name')"
                        [appendTo]="'body'"
                        placeholder="Nome"
-                       [closeOnSelect]="false"
                        #NgSelectComponent
             ></ng-select>
         </div>
@@ -85,6 +97,7 @@
                     <th scope="col"></th>
                     <th>Codice conto</th>
                     <th>Data</th>
+                    <th>Variazione</th>
                     <th>Nome conto</th>
                     <th>Descrizione</th>
                     <th class="numeric-values">Dare</th>

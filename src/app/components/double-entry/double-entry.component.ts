@@ -21,6 +21,7 @@ export class DoubleEntryComponent {
     names!: string[];
     // @ts-ignore
     @ViewChild(NgSelectComponent) ngSelectComponent: NgSelectComponent;
+    variationOptions = ['VFP', 'VFN', 'VEP', 'VEN'];
 
     constructor(
         private dataPersistenceService: DataPersistenceService,
@@ -111,6 +112,7 @@ export class DoubleEntryComponent {
         }
 
         const doubleEntryRow = DoubleEntryRow.createFromForm(doubleEntryForm);
+        // console.log(doubleEntryRow);
         const formRowId = doubleEntryForm.get('id')?.value;
         if (formRowId === null) {
             this.doubleEntry.push(doubleEntryRow);

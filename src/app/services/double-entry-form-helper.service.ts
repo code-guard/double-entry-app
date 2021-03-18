@@ -12,6 +12,7 @@ export class DoubleEntryFormHelperService {
         const formGroup = new FormGroup({
             code:            new FormControl(null, Validators.pattern('^[0-9]*$')),
             date:            new FormControl(null, Validators.required),
+            variation:       new FormControl(null, Validators.required),
             name:            new FormControl(null, Validators.required),
             description:     new FormControl(null),
             give:            new FormControl(null, Validators.min(1)),
@@ -38,6 +39,7 @@ export class DoubleEntryFormHelperService {
                 code: '',
                 date: new Date(),
                 name: null,
+                variation: null,
                 description: '',
                 give: null,
                 take: null,
@@ -48,6 +50,6 @@ export class DoubleEntryFormHelperService {
             return;
         }
 
-        doubleEntryForm.setValue(value);
+        doubleEntryForm.patchValue(value);
     }
 }
