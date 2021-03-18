@@ -48,6 +48,7 @@ export class TAccountComponent implements OnInit {
                 date: doubleEntryRow.date,
                 give: doubleEntryRow.give,
                 take: doubleEntryRow.take,
+                variation: doubleEntryRow.variation,
             });
         });
 

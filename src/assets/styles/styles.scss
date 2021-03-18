@@ -96,6 +96,10 @@ main {
     }
 }
 
+.variation-tooltip{
+    white-space: pre-line;
+}
+
 @import 'drag-drop-table';
 @import 'tables';
 @import 'ng-select';

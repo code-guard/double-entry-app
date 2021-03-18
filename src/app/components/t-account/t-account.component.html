@@ -1,5 +1,5 @@
 <main>
-    <div class="container">
+<!--    <div class="container">
             <mat-card *ngFor="let account of tAccounts">
                 <mat-card-header>
                     <mat-card-title>{{ account.account }}</mat-card-title>
@@ -17,5 +17,30 @@
                     </div>
                 </section>
             </mat-card>
+    </div>-->
+    <div class="container">
+        <mat-card *ngFor="let account of tAccounts">
+            <mat-card-header>
+                <mat-card-title>{{ account.account }}</mat-card-title>
+            </mat-card-header>
+            <section>
+                <div class="t-account-row-header">
+                    <span class="t-account-row-date">Data</span>
+                    <ng-template [ngIf]="account.tAccountRows[0].variation == 'VEN' || account.tAccountRows[0].variation == 'VEP'">
+                        <span class="t-account-row-give">VEN</span>
+                        <span class="t-account-row-give">VEP</span>
+                    </ng-template>
+                    <ng-template [ngIf]="account.tAccountRows[0].variation == 'VFP' || account.tAccountRows[0].variation == 'VFN'">
+                        <span class="t-account-row-give">VFP</span>
+                        <span class="t-account-row-give">VFN</span>
+                    </ng-template>
+                </div>
+                <div class="t-account-row" *ngFor="let row of account.tAccountRows">
+                    <span class="t-account-row-date">{{ row.date | date:'dd/MM/YYYY' }}</span>
+                    <span class="t-account-row-give numeric-values">{{ row.give | currency }}</span>
+                    <span class="t-account-row-take numeric-values">{{ row.take | currency }}</span>
+                </div>
+            </section>
+        </mat-card>
     </div>
 </main>

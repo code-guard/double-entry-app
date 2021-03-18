@@ -4,4 +4,5 @@ export interface TAccountRow {
     date: Date | null;
     give: number | null;
     take: number | null;
+    variation: string;
 }
