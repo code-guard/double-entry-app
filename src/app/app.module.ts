@@ -31,6 +31,7 @@ import { NgxGoogleAnalyticsModule, NgxGoogleAnalyticsRouterModule } from 'ngx-go
 import { MatTooltipModule } from '@angular/material/tooltip';
 import * as Sentry from '@sentry/angular';
 import { Router } from '@angular/router';
+import { ConfigDialogComponent } from './components/config-dialog/config-dialog.component';
 
 registerLocaleData(localeIt);
 
@@ -45,6 +46,7 @@ registerLocaleData(localeIt);
         ImportDataDialogComponent,
         PrintComponent,
         InfoDialogComponent,
+        ConfigDialogComponent,
     ],
     imports: [
         BrowserModule,

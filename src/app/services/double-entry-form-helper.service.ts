@@ -10,15 +10,15 @@ export class DoubleEntryFormHelperService {
     // Create and returns a standard formGroup with correct values and validations
     getDoubleEntryForm(): FormGroup {
         const formGroup = new FormGroup({
-            code:            new FormControl(null, Validators.pattern('^[0-9]*$')),
-            date:            new FormControl(null, Validators.required),
-            variation:       new FormControl(null, Validators.required),
-            name:            new FormControl(null, Validators.required),
-            description:     new FormControl(null),
-            give:            new FormControl(null, Validators.min(1)),
-            take:            new FormControl(null, Validators.min(1)),
+            code: new FormControl(null, Validators.pattern('^[0-9]*$')),
+            date: new FormControl(null, Validators.required),
+            variation: new FormControl(null, Validators.required),
+            name: new FormControl(null, Validators.required),
+            description: new FormControl(null),
+            give: new FormControl(null, Validators.min(1)),
+            take: new FormControl(null, Validators.min(1)),
 
-            id:              new FormControl(),
+            id: new FormControl(),
             hasBeenBalanced: new FormControl(),
         }, {
             validators: exactlyOneFilledFieldValidator(['give', 'take']),

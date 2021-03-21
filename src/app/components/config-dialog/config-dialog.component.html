@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>
+    <ng-container>Configurazioni</ng-container>
+</h1>
+<div mat-dialog-content>
+    <form [formGroup]="form" ngNativeValidate>
+        <mat-slide-toggle formControlName="variations">Variazioni</mat-slide-toggle>
+    </form>
+</div>
+<mat-dialog-actions align="center">
+    <button mat-flat-button color="secondary" (click)="closeDialog(false)">Annulla</button>
+    <button mat-flat-button color="primary" (click)="closeDialog(true)" cdkFocusInitial>Salva</button>
+</mat-dialog-actions>

@@ -1,3 +1,9 @@
+<div>
+    <button mat-icon-button aria-label="Configurazioni" (click)="openConfigDialog()">
+        <mat-icon>settings</mat-icon>
+    </button>
+</div>
+
 <mat-tab-group (selectedTabChange)="showTAccount = !showTAccount">
     <mat-tab label="Partita doppia">
         <app-double-entry></app-double-entry>
