@@ -25,7 +25,7 @@ export class ConfigDialogComponent implements OnInit {
 
     closeDialog(save: boolean): void {
         if (save) {
-
+            this.configService.set(this.form.value);
         }
 
         this.matDialogRef.close();

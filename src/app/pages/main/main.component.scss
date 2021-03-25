@@ -1,0 +1,11 @@
+:host {
+    display: block;
+    position: relative;
+}
+
+.settings-icon {
+    position: absolute;
+    top: 4px;
+    right: 0;
+    z-index: 10;
+}
