@@ -5,7 +5,7 @@ export class DoubleEntryRow {
     id: string;
     code: string | null;
     date: Date;
-    variation: string;
+    variation?: string | null | undefined;
     name: string;
     description: string | null;
     give: number | null;
@@ -16,7 +16,7 @@ export class DoubleEntryRow {
         id: string,
         code: string | null,
         date: Date,
-        variation: string,
+        variation: string | null | undefined,
         name: string,
         description: string | null,
         give: number | null,

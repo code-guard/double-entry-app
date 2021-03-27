@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { exactlyOneFilledFieldValidator } from '../validators/exactly-one-filled-field.validator';
 import { DoubleEntryRow } from '../models/double-entry-row.model';
+import { chooseCorrectVariationsValidator } from '../validators/choose-correct-variations.validator';
 
 @Injectable({
     providedIn: 'root'
@@ -21,7 +22,10 @@ export class DoubleEntryFormHelperService {
             id: new FormControl(),
             hasBeenBalanced: new FormControl(),
         }, {
-            validators: exactlyOneFilledFieldValidator(['give', 'take']),
+            validators: [
+                exactlyOneFilledFieldValidator(['give', 'take']),
+                chooseCorrectVariationsValidator('variation', 'give', 'take'),
+            ]
         });
 
         this.applyFormValue(formGroup);

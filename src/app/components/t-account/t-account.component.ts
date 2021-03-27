@@ -3,6 +3,8 @@ import { TAccount } from '../../interfaces/t-account';
 import { v4 as uuidv4 } from 'uuid';
 import { DataPersistenceService } from '../../services/data-persistence.service';
 import { DoubleEntry } from '../../models/double-entry';
+import { Config } from '../../models/config.model';
+import { ConfigService } from '../../services/config.service';
 
 @Component({
     selector: 'app-t-account',
@@ -12,10 +14,13 @@ import { DoubleEntry } from '../../models/double-entry';
 export class TAccountComponent implements OnInit {
     doubleEntryRows!: DoubleEntry;
     tAccounts: TAccount[] = [];
+    config: Config;
 
     constructor(
         private dataPersistenceService: DataPersistenceService,
+        private configService: ConfigService
     ) {
+        this.config = this.configService.get();
     }
 
     ngOnInit(): void {

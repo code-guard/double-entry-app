@@ -36,4 +36,26 @@ export class DoubleEntry extends Array<DoubleEntryRow> {
 
         throw new DoubleEntryRowNotFoundError();
     }
+
+    applyDefaultVariation(): DoubleEntry {
+        for (const row of this) {
+            if (row.take) {
+                row.variation = 'VEP';
+            }
+
+            if (row.give) {
+                row.variation = 'VEN';
+            }
+        }
+
+        return this;
+    }
+
+    removeVariations(): DoubleEntry {
+        for (const row of this) {
+            delete row.variation;
+        }
+
+        return this;
+    }
 }

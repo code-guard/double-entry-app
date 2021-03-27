@@ -1,23 +1,4 @@
 <main>
-<!--    <div class="container">
-            <mat-card *ngFor="let account of tAccounts">
-                <mat-card-header>
-                    <mat-card-title>{{ account.account }}</mat-card-title>
-                </mat-card-header>
-                <section>
-                    <div class="t-account-row-header">
-                        <span class="t-account-row-date">Data</span>
-                        <span class="t-account-row-give">Dare</span>
-                        <span class="t-account-row-take">Avere</span>
-                    </div>
-                    <div class="t-account-row" *ngFor="let row of account.tAccountRows">
-                        <span class="t-account-row-date">{{ row.date | date:'dd/MM/YYYY' }}</span>
-                        <span class="t-account-row-give numeric-values">{{ row.give | currency }}</span>
-                        <span class="t-account-row-take numeric-values">{{ row.take | currency }}</span>
-                    </div>
-                </section>
-            </mat-card>
-    </div>-->
     <div class="container">
         <mat-card *ngFor="let account of tAccounts">
             <mat-card-header>
@@ -26,14 +7,21 @@
             <section>
                 <div class="t-account-row-header">
                     <span class="t-account-row-date">Data</span>
-                    <ng-template [ngIf]="account.tAccountRows[0].variation == 'VEN' || account.tAccountRows[0].variation == 'VEP'">
-                        <span class="t-account-row-give">VEN</span>
-                        <span class="t-account-row-give">VEP</span>
-                    </ng-template>
-                    <ng-template [ngIf]="account.tAccountRows[0].variation == 'VFP' || account.tAccountRows[0].variation == 'VFN'">
-                        <span class="t-account-row-give">VFP</span>
-                        <span class="t-account-row-give">VFN</span>
-                    </ng-template>
+                    <ng-container *ngIf="!config.variations">
+                        <span class="t-account-row-give">Dare</span>
+                        <span class="t-account-row-take">Avere</span>
+                    </ng-container>
+
+                    <ng-container *ngIf="config.variations">
+                        <ng-container *ngIf="['VEN', 'VEP'].indexOf(account.tAccountRows[0].variation) !== -1">
+                            <span class="t-account-row-give">VEN</span>
+                            <span class="t-account-row-take">VEP</span>
+                        </ng-container>
+                        <ng-container *ngIf="['VFN', 'VFP'].indexOf(account.tAccountRows[0].variation) !== -1">
+                            <span class="t-account-row-give">VFP</span>
+                            <span class="t-account-row-take">VFN</span>
+                        </ng-container>
+                    </ng-container>
                 </div>
                 <div class="t-account-row" *ngFor="let row of account.tAccountRows">
                     <span class="t-account-row-date">{{ row.date | date:'dd/MM/YYYY' }}</span>

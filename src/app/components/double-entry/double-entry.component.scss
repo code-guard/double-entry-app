@@ -22,6 +22,10 @@ form {
     mat-toolbar {
         display: none;
     }
+
+    #variations-table-head mat-icon {
+        display: none;
+    }
 }
 
 #variations-table-head {
