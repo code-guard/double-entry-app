@@ -12,7 +12,11 @@ export class ToggleVariationConfigService {
     ) {
     }
 
-    toggle(config: Config, doubleEntry: DoubleEntry): void {
+    toggle(config: Config, doubleEntry: DoubleEntry, configIsAlreadyToggled?: boolean ): void {
+        if (configIsAlreadyToggled === false) {
+            config.variations = !config.variations;
+        }
+
         if (config.variations) {
             doubleEntry.applyDefaultVariation();
         } else {
