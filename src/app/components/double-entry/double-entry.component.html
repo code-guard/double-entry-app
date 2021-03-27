@@ -18,7 +18,7 @@
         </mat-form-field>
         <span *ngIf="row.id !== doubleEntryForm.get('id')?.value">{{ row.date | date:'dd/MM/YYYY' }}</span>
     </td>
-    <td>
+    <td *ngIf="config.variations">
         <div class="mat-form-field" *ngIf="row.id === doubleEntryForm.get('id')?.value">
             <ng-select appearance="outline"
                        [items]="variationOptions"
@@ -98,13 +98,15 @@
                     <th scope="col"></th>
                     <th>Codice conto</th>
                     <th>Data</th>
-                    <th matTooltip="Seleziona la variazione tra:
+                    <th id="variations-table-head"
+                        matTooltip="Seleziona la variazione tra:
                         - VFP = Variazione Finanziaria Positiva
                         - VFN = Variazione Finanziaria Negativa
                         - VEP = Variazione Economica Positiva
                         - VEN = Variazione Economica Negativa"
                         [matTooltipClass]="'variation-tooltip'"
-                    >Variazione</th>
+                        *ngIf="config.variations"
+                    ><span>Variazione</span> <mat-icon>info</mat-icon></th>
                     <th>Nome conto</th>
                     <th>Descrizione</th>
                     <th class="numeric-values">Dare</th>
