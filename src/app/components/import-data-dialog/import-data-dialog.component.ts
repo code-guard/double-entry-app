@@ -30,13 +30,22 @@ export class ImportDataDialogComponent {
 
     import(): void {
         this.dataPersistenceService.set(this.doubleEntries as DoubleEntry);
+        this.handleVariationsConfigAfterImport();
+        this.matDialogRef.close(true);
+    }
 
+    private handleVariationsConfigAfterImport(): void {
+        const data = this.dataPersistenceService.get();
         const config = this.configService.get();
+
+        // If the config is different from the variation setting of the imported rows
+        if (!data[0].variation === !config.variations) {
+            return;
+        }
+
         this.toggleVariationConfigService.toggle(config, this.dataPersistenceService.get(), false);
         this.configService.set(config);
         location.reload();
-
-        this.matDialogRef.close(true);
     }
 
     onFileSelect(input: any): void {
