@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { exactlyOneFilledFieldValidator } from '../validators/exactly-one-filled-field.validator';
 import { DoubleEntryRow } from '../models/double-entry-row.model';
+import { chooseCorrectVariationsValidator } from '../validators/choose-correct-variations.validator';
 
 @Injectable({
     providedIn: 'root'
@@ -10,17 +11,21 @@ export class DoubleEntryFormHelperService {
     // Create and returns a standard formGroup with correct values and validations
     getDoubleEntryForm(): FormGroup {
         const formGroup = new FormGroup({
-            code:            new FormControl(null, Validators.pattern('^[0-9]*$')),
-            date:            new FormControl(null, Validators.required),
-            name:            new FormControl(null, Validators.required),
-            description:     new FormControl(null),
-            give:            new FormControl(null, Validators.min(1)),
-            take:            new FormControl(null, Validators.min(1)),
+            code: new FormControl(null, Validators.pattern('^[0-9]*$')),
+            date: new FormControl(null, Validators.required),
+            variation: new FormControl(null, Validators.required),
+            name: new FormControl(null, Validators.required),
+            description: new FormControl(null),
+            give: new FormControl(null, Validators.min(1)),
+            take: new FormControl(null, Validators.min(1)),
 
-            id:              new FormControl(),
+            id: new FormControl(),
             hasBeenBalanced: new FormControl(),
         }, {
-            validators: exactlyOneFilledFieldValidator(['give', 'take']),
+            validators: [
+                exactlyOneFilledFieldValidator(['give', 'take']),
+                chooseCorrectVariationsValidator('variation', 'give', 'take'),
+            ]
         });
 
         this.applyFormValue(formGroup);
@@ -38,6 +43,7 @@ export class DoubleEntryFormHelperService {
                 code: '',
                 date: new Date(),
                 name: null,
+                variation: null,
                 description: '',
                 give: null,
                 take: null,
@@ -48,6 +54,6 @@ export class DoubleEntryFormHelperService {
             return;
         }
 
-        doubleEntryForm.setValue(value);
+        doubleEntryForm.patchValue(value);
     }
 }

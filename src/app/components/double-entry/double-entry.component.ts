@@ -9,6 +9,8 @@ import { DoubleEntry } from '../../models/double-entry';
 import { DoubleEntryFormHelperService } from '../../services/double-entry-form-helper.service';
 import { CdkDragDrop } from '@angular/cdk/drag-drop/drag-events';
 import { NgSelectComponent } from '@ng-select/ng-select';
+import { ConfigService } from '../../services/config.service';
+import { Config } from '../../models/config.model';
 
 @Component({
     selector: 'app-double-entry',
@@ -21,13 +23,17 @@ export class DoubleEntryComponent {
     names!: string[];
     // @ts-ignore
     @ViewChild(NgSelectComponent) ngSelectComponent: NgSelectComponent;
+    variationOptions = ['VFP', 'VFN', 'VEP', 'VEN'];
+    config: Config;
 
     constructor(
         private dataPersistenceService: DataPersistenceService,
         private matDialog: MatDialog,
-        private doubleEntryFormHelperService: DoubleEntryFormHelperService
+        private doubleEntryFormHelperService: DoubleEntryFormHelperService,
+        private configService: ConfigService
     ) {
         this.doubleEntryForm = doubleEntryFormHelperService.getDoubleEntryForm();
+        this.config = configService.get();
         this.initData();
     }
 
@@ -112,6 +118,7 @@ export class DoubleEntryComponent {
         }
 
         const doubleEntryRow = DoubleEntryRow.createFromForm(doubleEntryForm);
+        // console.log(doubleEntryRow);
         const formRowId = doubleEntryForm.get('id')?.value;
         if (formRowId === null) {
             this.doubleEntry.push(doubleEntryRow);

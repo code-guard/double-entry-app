@@ -1,0 +1,22 @@
+<h1 mat-dialog-title>
+    <ng-container>Configurazioni</ng-container>
+</h1>
+<div mat-dialog-content>
+    <form [formGroup]="form" ngNativeValidate>
+        <mat-slide-toggle formControlName="variations" color="primary">Variazioni</mat-slide-toggle>
+        <p style="margin-top: 10px" *ngIf="doubleEntry.length && config.variations !== form.get('variations')?.value">
+            <em>
+                <ng-container *ngIf="config.variations === true">
+                    Le variazioni indicate nelle righe della partita doppia saranno rimosse.
+                </ng-container>
+                <ng-container *ngIf="config.variations === false">
+                    Sarà applicata una variazione di default alle righe già inserite nella partita doppia.
+                </ng-container>
+            </em>
+        </p>
+    </form>
+</div>
+<mat-dialog-actions align="center">
+    <button mat-flat-button color="secondary" (click)="closeDialog(false)">Annulla</button>
+    <button mat-flat-button color="primary" (click)="closeDialog(true)" cdkFocusInitial>Salva</button>
+</mat-dialog-actions>

@@ -18,6 +18,21 @@
         </mat-form-field>
         <span *ngIf="row.id !== doubleEntryForm.get('id')?.value">{{ row.date | date:'dd/MM/YYYY' }}</span>
     </td>
+    <td *ngIf="config.variations">
+        <div class="mat-form-field" *ngIf="row.id === doubleEntryForm.get('id')?.value">
+            <ng-select appearance="outline"
+                       [items]="variationOptions"
+                       [searchable]="false"
+                       addTagText="Variazione"
+                       [formControl]="doubleEntryForm.get('variation')"
+                       placeholder="Variazione"
+                       [clearable]="false"
+                       [appendTo]="'body'"
+                       #NgSelectComponent
+            ></ng-select>
+        </div>
+        <span *ngIf="row.id !== doubleEntryForm.get('id')?.value">{{ row.variation }}</span>
+    </td>
     <td>
         <div class="mat-form-field" *ngIf="row.id === doubleEntryForm.get('id')?.value">
             <ng-select appearance="outline"
@@ -28,7 +43,6 @@
                        [formControl]="doubleEntryForm.get('name')"
                        [appendTo]="'body'"
                        placeholder="Nome"
-                       [closeOnSelect]="false"
                        #NgSelectComponent
             ></ng-select>
         </div>
@@ -85,6 +99,15 @@
                     <th scope="col"></th>
                     <th>Codice conto</th>
                     <th>Data</th>
+                    <th id="variations-table-head"
+                        matTooltip="Seleziona la variazione tra:
+                        - VFP = Variazione Finanziaria Positiva
+                        - VFN = Variazione Finanziaria Negativa
+                        - VEP = Variazione Economica Positiva
+                        - VEN = Variazione Economica Negativa"
+                        [matTooltipClass]="'variation-tooltip'"
+                        *ngIf="config.variations"
+                    ><span>Variazione</span> <mat-icon>info</mat-icon></th>
                     <th>Nome conto</th>
                     <th>Descrizione</th>
                     <th class="numeric-values">Dare</th>
@@ -127,102 +150,3 @@
         Reset
     </button>
 </main>
-
-<!--        <mat-table [dataSource]="dataSource" class="mat-elevation-z8">-->
-<!--            <ng-container matColumnDef="code">-->
-<!--                <mat-header-cell *matHeaderCellDef>Codice</mat-header-cell>-->
-<!--                <mat-cell *matCellDef="let row">-->
-<!--                    <mat-form-field appearance="outline" *ngIf="row.id === doubleEntryForm.get('id')?.value">-->
-<!--                        <mat-label>Codice</mat-label>-->
-<!--                        <input matInput type="number" formControlName="code">-->
-<!--                    </mat-form-field>-->
-<!--                    <span *ngIf="row.id !== doubleEntryForm.get('id')?.value">{{ row.code }}</span>-->
-<!--                </mat-cell>-->
-<!--            </ng-container>-->
-<!--            <ng-container matColumnDef="date">-->
-<!--                <mat-header-cell *matHeaderCellDef>Data</mat-header-cell>-->
-<!--                <mat-cell *matCellDef="let row">-->
-<!--                    <mat-form-field appearance="outline" *ngIf="row.id === doubleEntryForm.get('id')?.value">-->
-<!--                        <mat-label>Data</mat-label>-->
-<!--                        <input matInput [matDatepicker]="picker" formControlName="date">-->
-<!--                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>-->
-<!--                        <mat-datepicker #picker></mat-datepicker>-->
-<!--                    </mat-form-field>-->
-<!--                    <span *ngIf="row.id !== doubleEntryForm.get('id')?.value">{{ row.date | date:'dd/MM/YYYY' }}</span>-->
-<!--                </mat-cell>-->
-<!--            </ng-container>-->
-<!--            <ng-container matColumnDef="name">-->
-<!--                <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>-->
-<!--                <mat-cell *matCellDef="let row">-->
-<!--        &lt;!&ndash;                        <ng-select appearance="outline"&ndash;&gt;-->
-<!--        &lt;!&ndash;                                   *ngIf="row.id === doubleEntryForm.get('id')?.value"&ndash;&gt;-->
-<!--        &lt;!&ndash;                                   [items]="names"&ndash;&gt;-->
-<!--        &lt;!&ndash;                                   [(ngModel)]="row.name">&ndash;&gt;-->
-<!--        &lt;!&ndash;                        </ng-select>&ndash;&gt;-->
-<!--                    <mat-form-field appearance="outline" *ngIf="row.id === doubleEntryForm.get('id')?.value">-->
-<!--                        <mat-label>Nome</mat-label>-->
-<!--                        <input matInput type="text" formControlName="name">-->
-<!--                    </mat-form-field>-->
-<!--                    <span *ngIf="row.id !== doubleEntryForm.get('id')?.value">{{ row.name }}</span>-->
-<!--                </mat-cell>-->
-<!--            </ng-container>-->
-<!--            <ng-container matColumnDef="description">-->
-<!--                <mat-header-cell *matHeaderCellDef>Descrizione</mat-header-cell>-->
-<!--                <mat-cell *matCellDef="let row">-->
-<!--                    <mat-form-field appearance="outline" *ngIf="row.id === doubleEntryForm.get('id')?.value">-->
-<!--                        <mat-label>Descrizione</mat-label>-->
-<!--                        <input matInput type="text" formControlName="description">-->
-<!--                    </mat-form-field>-->
-<!--                    <span *ngIf="row.id !== doubleEntryForm.get('id')?.value">{{ row.description }}</span>-->
-<!--                </mat-cell>-->
-<!--            </ng-container>-->
-<!--            <ng-container matColumnDef="give">-->
-<!--                <mat-header-cell *matHeaderCellDef class="numeric-values">Dare</mat-header-cell>-->
-<!--                <mat-cell *matCellDef="let row" class="numeric-values">-->
-<!--                    <mat-form-field appearance="outline" *ngIf="row.id === doubleEntryForm.get('id')?.value">-->
-<!--                        <mat-label>Dare</mat-label>-->
-<!--                        <input matInput type="number" formControlName="give">-->
-<!--                    </mat-form-field>-->
-<!--                    <span *ngIf="row.id !== doubleEntryForm.get('id')?.value">{{ row.give | currency:'EUR':'symbol':'0.2-2':'it-IT' }}</span>-->
-<!--                </mat-cell>-->
-<!--            </ng-container>-->
-<!--            <ng-container matColumnDef="take">-->
-<!--                <mat-header-cell *matHeaderCellDef class="numeric-values">Avere</mat-header-cell>-->
-<!--                <mat-cell *matCellDef="let row" class="numeric-values">-->
-<!--                    <mat-form-field appearance="outline" *ngIf="row.id === doubleEntryForm.get('id')?.value">-->
-<!--                        <mat-label>Avere</mat-label>-->
-<!--                        <input matInput type="number" formControlName="take">-->
-<!--                    </mat-form-field>-->
-<!--                    <span *ngIf="row.id !== doubleEntryForm.get('id')?.value">{{ row.take | currency:'EUR':'symbol':'0.2-2':'it-IT' }}</span>-->
-<!--                </mat-cell>-->
-<!--            </ng-container>-->
-<!--            <ng-container matColumnDef="actions">-->
-<!--                <mat-header-cell *matHeaderCellDef class="numeric-values">Azioni</mat-header-cell>-->
-<!--                <mat-cell *matCellDef="let row" class="numeric-values">-->
-<!--                    <button type="submit" mat-icon-button color="primary" *ngIf="row.id === doubleEntryForm.get('id')?.value && row.id" (click)="confirmRow(doubleEntryForm)">-->
-<!--                        <mat-icon aria-hidden="false">save</mat-icon>-->
-<!--                    </button>-->
-<!--                        <button type="button" mat-icon-button color="primary" *ngIf="row.id === doubleEntryForm.get('id')?.value && row.id" (click)="discardEditRow(row, doubleEntryForm)">-->
-<!--                        <mat-icon aria-hidden="false">close</mat-icon>-->
-<!--                    </button>-->
-<!--                    <button type="submit" mat-icon-button color="primary" *ngIf="row.id === doubleEntryForm.get('id')?.value && !row.id" (click)="confirmRow(doubleEntryForm)">-->
-<!--                        <mat-icon aria-hidden="false">add</mat-icon>-->
-<!--                    </button>-->
-<!--                        <button type="button" mat-icon-button color="primary" *ngIf="row.id !== doubleEntryForm.get('id')?.value" (click)="editRow(row, doubleEntryForm)">-->
-<!--                        <mat-icon aria-hidden="false">edit</mat-icon>-->
-<!--                    </button>-->
-<!--                    <button type="button" mat-icon-button color="primary" *ngIf="row.id !== doubleEntryForm.get('id')?.value" (click)="deleteRow(row)">-->
-<!--                        <mat-icon aria-hidden="false">delete</mat-icon>-->
-<!--                    </button>-->
-<!--                    <button type="button" mat-icon-button color="primary" *ngIf="row.id !== doubleEntryForm.get('id')?.value" (click)="checkGroup(row)">-->
-<!--                        <mat-icon aria-hidden="false">check</mat-icon>-->
-<!--                    </button>-->
-<!--                </mat-cell>-->
-<!--            </ng-container>-->
-
-<!--            <mat-header-row *matHeaderRowDef="['code', 'date', 'name', 'description', 'give', 'take', 'actions']"></mat-header-row>-->
-<!--            <mat-row-->
-<!--                *matRowDef="let row; columns: ['code', 'date', 'name', 'description', 'give', 'take', 'actions']"-->
-<!--                class="{{ row.hasBeenBalanced ? 'balanced-row' : null }}"-->
-<!--            ></mat-row>-->
-<!--        </mat-table>-->

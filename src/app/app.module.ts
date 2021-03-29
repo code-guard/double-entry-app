@@ -31,6 +31,8 @@ import { NgxGoogleAnalyticsModule, NgxGoogleAnalyticsRouterModule } from 'ngx-go
 import { MatTooltipModule } from '@angular/material/tooltip';
 import * as Sentry from '@sentry/angular';
 import { Router } from '@angular/router';
+import { ConfigDialogComponent } from './components/config-dialog/config-dialog.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 registerLocaleData(localeIt);
 
@@ -45,6 +47,7 @@ registerLocaleData(localeIt);
         ImportDataDialogComponent,
         PrintComponent,
         InfoDialogComponent,
+        ConfigDialogComponent,
     ],
     imports: [
         BrowserModule,
@@ -66,6 +69,7 @@ registerLocaleData(localeIt);
         NgxGoogleAnalyticsModule.forRoot('G-M1M05E9LSD'),
         NgxGoogleAnalyticsRouterModule,
         MatTooltipModule,
+        MatSlideToggleModule,
     ],
     providers: [
         // {

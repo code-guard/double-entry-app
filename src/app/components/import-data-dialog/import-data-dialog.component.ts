@@ -4,6 +4,8 @@ import { BasicDialogDataModel } from '../../interfaces/basic-dialog-data.model';
 import { FormControl, FormGroup } from '@angular/forms';
 import { DataPersistenceService } from '../../services/data-persistence.service';
 import { DoubleEntry } from '../../models/double-entry';
+import { ConfigService } from '../../services/config.service';
+import { ToggleVariationConfigService } from '../../services/toggle-variation-config.service';
 
 @Component({
     selector: 'app-import-data-dialog',
@@ -21,12 +23,29 @@ export class ImportDataDialogComponent {
         @Inject(MAT_DIALOG_DATA) public data: BasicDialogDataModel,
         private dataPersistenceService: DataPersistenceService,
         private matDialogRef: MatDialogRef<ImportDataDialogComponent>,
+        private configService: ConfigService,
+        private toggleVariationConfigService: ToggleVariationConfigService
     ) {
     }
 
     import(): void {
         this.dataPersistenceService.set(this.doubleEntries as DoubleEntry);
+        this.handleVariationsConfigAfterImport();
         this.matDialogRef.close(true);
+    }
+
+    private handleVariationsConfigAfterImport(): void {
+        const data = this.dataPersistenceService.get();
+        const config = this.configService.get();
+
+        // If the config is different from the variation setting of the imported rows
+        if (!data[0].variation === !config.variations) {
+            return;
+        }
+
+        this.toggleVariationConfigService.toggle(config, this.dataPersistenceService.get(), false);
+        this.configService.set(config);
+        location.reload();
     }
 
     onFileSelect(input: any): void {

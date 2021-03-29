@@ -22,4 +22,35 @@ form {
     mat-toolbar {
         display: none;
     }
+
+    #variations-table-head mat-icon {
+        display: none;
+    }
+}
+
+#variations-table-head {
+    span {
+        top: 0;
+        position: relative;
+        margin-right: 5px;
+    }
+
+    mat-icon {
+        height: 18px;
+        width: 18px;
+        font-size: 18px;
+        margin-top: -4px;
+    }
+}
+
+@media (screen and min-width: 791px) {
+    #variations-table-head {
+        span {
+            top: -4px;
+        }
+
+        mat-icon {
+            margin-top: 5px;
+        }
+    }
 }
