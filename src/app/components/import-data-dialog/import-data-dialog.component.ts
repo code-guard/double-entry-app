@@ -1,11 +1,12 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { BasicDialogDataModel } from '../../interfaces/basic-dialog-data.model';
 import { FormControl, FormGroup } from '@angular/forms';
 import { DataPersistenceService } from '../../services/data-persistence.service';
 import { DoubleEntry } from '../../models/double-entry';
 import { ConfigService } from '../../services/config.service';
 import { ToggleVariationConfigService } from '../../services/toggle-variation-config.service';
+import { BooleanDialogComponent } from '../boolean-dialog/boolean-dialog.component';
 
 @Component({
     selector: 'app-import-data-dialog',
@@ -23,15 +24,26 @@ export class ImportDataDialogComponent {
         @Inject(MAT_DIALOG_DATA) public data: BasicDialogDataModel,
         private dataPersistenceService: DataPersistenceService,
         private matDialogRef: MatDialogRef<ImportDataDialogComponent>,
+        private matDialog: MatDialog,
         private configService: ConfigService,
         private toggleVariationConfigService: ToggleVariationConfigService
     ) {
     }
 
     import(): void {
-        this.dataPersistenceService.set(this.doubleEntries as DoubleEntry);
-        this.handleVariationsConfigAfterImport();
-        this.matDialogRef.close(true);
+        this.matDialog.open(BooleanDialogComponent, {
+            data: {
+                message: 'Attenzione: il progetto corrente sarà sovrascritto. Sei sicuro di voler procedere?'
+            },
+        }).afterClosed().subscribe(response => {
+            if (!response) {
+                return;
+            }
+
+            this.dataPersistenceService.set(this.doubleEntries as DoubleEntry);
+            this.handleVariationsConfigAfterImport();
+            this.matDialogRef.close(true);
+        });
     }
 
     private handleVariationsConfigAfterImport(): void {
